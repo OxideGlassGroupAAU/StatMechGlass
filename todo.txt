@@ -1,0 +1,19 @@
+SMG ToDoList:
+  - Implement network intermediates (Al2O3)
+  - Implement 2D plotting
+  - Wrap everything into a class
+  - Read requirements for pip
+  - Implement requirements
+
+Paper
+  - Motivation and significance
+  - Software description
+  - Examples
+  - Impact
+
+  - ReadMe
+  - Licence
+    - Use choosealicence.com
+  - Two practical examples
+  - Dependencies (imports)
+  - Explain novelty, necessity, version
