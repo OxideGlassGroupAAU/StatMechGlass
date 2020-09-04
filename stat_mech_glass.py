@@ -118,6 +118,7 @@ def smg_structure(val, tg):
     f_conc = []
     intermediates_s = comp["intermediates"]
     intermediates = []
+    i_conc = []
     modifiers_s = comp["modifiers"]
     modifiers = []
     m_conc =[]
@@ -132,8 +133,19 @@ def smg_structure(val, tg):
             pass
         else:
             formers.append(formers_s[i])
-    print("Formers in glass: {}".format(formers))
-
+    # print("Formers in glass: {}".format(formers))
+    
+    for i in range(len(intermediates_s)):
+        try:
+            a_frac = form_lookup(intermediates_s[i])[6]
+            i_conc.append(val[intermediates_s[i]]/a_frac)
+        except:
+            pass
+                
+    if sum(i_conc) > sum(f_conc):
+        print("The results may be inaccurate since the concentration of intermediates is higher than the concentration of formers")
+    
+    
     for i in range(len(intermediates_s)):
         a_frac = form_lookup(intermediates_s[i])[6]
         try:
@@ -143,7 +155,7 @@ def smg_structure(val, tg):
         else:
             intermediates.append(intermediates_s[i])
     print("Intermediates in glass: {}".format(intermediates))
-        
+    print("Intermediates conc: {}".format(i_conc))
     for i in range(len(modifiers_s)):
         try:
             m_conc.append(val[modifiers_s[i]])
@@ -153,6 +165,7 @@ def smg_structure(val, tg):
             modifiers.append(modifiers_s[i])
     print("Modifiers in glass: {}".format(modifiers))
     
+   
     t_n_draws = (sum(m_conc) / sum(f_conc)) *100
     
     print("Total draws: {}".format(t_n_draws))
@@ -205,7 +218,7 @@ def smg_structure(val, tg):
             w_int.append(math.exp(-H_int[i]/(tg*0.008314)))
         
         
-        structure_alb = form_lookup(intermediates[0])[10](w_int, structure_val)
+        structure_alb = form_lookup(intermediates[0])[10](w_int, structure_val, formers[0])
     
         indi = 0
         for i in structures.keys():
@@ -213,7 +226,7 @@ def smg_structure(val, tg):
             indi += 1
     else:
         pass
-    print("starting structures after AlB draws: {}".format(structures))
+    # print("starting structures after intermediate draws: {}".format(structures))
     
     # Defining weighting factors
     for m in range(n_draws):
@@ -269,7 +282,7 @@ def smg_structure(val, tg):
         
             draws_norm = []
             for i in range(len(draws)):
-                draws_norm.append(draws[i] / sum(draws))
+                draws_norm.append((draws[i] / sum(draws)))
             
             # print("Draws for step {}: {}".format(m+1, draws_norm))
             
@@ -313,7 +326,7 @@ def smg_structure(val, tg):
                             for i2 in step_w_ind:
                                 step_w.append(weights[i2])
                             
-                            print(back_draw)
+                            # print(back_draw)
                             onedraw_fun = form_lookup(formers[i])[3]
                             new_conc = list(onedraw_fun(step_w, step_conc, back_draw, back = True))
                             
@@ -322,7 +335,7 @@ def smg_structure(val, tg):
                 
                         
                     
-            print("Structures for step {}: {}".format(m+1, structures))
+            # print("Structures for step {}: {}".format(m+1, structures))
                     
                     
         else:
@@ -364,7 +377,7 @@ def smg_structure(val, tg):
                
             draws_norm = []
             for i in range(len(draws)):
-                draws_norm.append(draws[i] / sum(draws))
+                draws_norm.append((draws[i] / sum(draws)))
             
             
             for i in range(len(formers)):
@@ -391,14 +404,14 @@ def smg_structure(val, tg):
     return structures
 
 
+if __name__ == "__main__":
 
-
-values = {"B":25,"Si":50, "Na": 50}
-tg = 700
-
-res_struc = smg_structure(values, tg)
-
-print("Predicted structural distribution: {}".format(res_struc))
+    values = {"Si":60,"Al":15, "Na": 15}
+    tg = 700
+    
+    res_struc = smg_structure(values, tg)
+    
+    print("Predicted structural distribution: {}".format(res_struc))
 
 def smg_basin_binary(former, modifier, it=10):
 

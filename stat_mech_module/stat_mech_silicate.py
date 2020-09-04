@@ -35,7 +35,7 @@ import scipy.optimize
 
 #HNaSi, HKSi, HLiSi = [0, 14.1, 22.9, 27.1], [0, 18.8, 35.2, 45.8], [0, 8.4, 16.4, 22.1]
 
-def Si_onedraw(w, start_conc, draw_size):
+def Si_onedraw(w, start_conc, draw_size, back = False):
     
     Q4_s = start_conc[0]
     Q3_s = start_conc[1]
@@ -43,40 +43,101 @@ def Si_onedraw(w, start_conc, draw_size):
     Q1_s = start_conc[3]
     Q0_s = start_conc[4]
     
-    p4 = Q4_s*w[0] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p3 = Q3_s*w[1] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p2 = Q2_s*w[2] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p1 = Q1_s*w[3] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+    if back == True:
+        
+        wQ0 = 1/w[3]
+        wQ1 = 1/w[2]
+        wQ2 = 1/w[1]
+        wQ3 = 1/w[0]
+        
+        p0 = Q0_s*wQ0 / ((Q0_s*wQ0)+(Q1_s*wQ1)+(Q2_s*wQ2)+(Q3_s*wQ3))
+        p1 = Q1_s*wQ1 / ((Q0_s*wQ0)+(Q1_s*wQ1)+(Q2_s*wQ2)+(Q3_s*wQ3))
+        p2 = Q2_s*wQ2 / ((Q0_s*wQ0)+(Q1_s*wQ1)+(Q2_s*wQ2)+(Q3_s*wQ3))
+        p3 = Q3_s*wQ3 / ((Q0_s*wQ0)+(Q1_s*wQ1)+(Q2_s*wQ2)+(Q3_s*wQ3))
+        sum_p = p0+p3+p2+p1
+        
+        p0 = p0*draw_size
+        p3 = p3*draw_size
+        p2 = p2*draw_size
+        p1 = p1*draw_size
+        
+        sum_p2 = p0+p3+p2+p1
+        
+        print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
+        
+        print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p0, p1, p2, p3))
+        
+        
+        if Q0_s + p0 < 0:
+            next_Q0 = 0
+            p1 = p1 + Q0_s + p0
+        else:
+            next_Q0 = Q0_s + p0
     
-    p4 = p4*draw_size
-    p3 = p3*draw_size
-    p2 = p2*draw_size
-    p1 = p1*draw_size
+        if Q1_s - p0 + p1 < 0:
+            next_Q1 = 0
+            p2 = p2 + Q1_s + p1
+        else:
+            next_Q1 = Q1_s - p0 + p1
     
-    if Q4_s - p4 < 0:
-        next_Q4 = 0
+        if Q2_s - p1 + p2 < 0:
+            next_Q2 = 0
+            p3 = p3 + Q2_s + p2
+        else:
+            next_Q2 = Q2_s - p1 + p2
+    
+        if Q3_s - p2 + p3 < 0:
+            next_Q3 = 0
+            p3 = p3 + Q3_s + p3
+        else:
+            next_Q3 = Q3_s - p2 + p3
+    
+        if Q4_s - p3 < 0:
+            next_Q4 = 0
+        else:
+            next_Q4 = Q4_s - p3
+            
+            
+        print("Q4, Q3, Q2, Q1 and Q0 change: {}, {}, {}, {}, {}, and sum: {}".format(Q4_s-next_Q4, Q3_s-next_Q3, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0, sum([Q3_s-next_Q3, Q4_s-next_Q4, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0])))
+         
+         
     else:
-        next_Q4 = Q4_s - p4
-
-    if Q3_s + p4 - p3 < 0:
-        next_Q3 = 0
-    else:
-        next_Q3 = Q3_s + p4 - p3
-
-    if Q2_s + p3 - p2 < 0:
-        next_Q2 = 0
-    else:
-        next_Q2 = Q2_s + p3 - p2
-
-    if Q1_s + p2 - p1 < 0:
-        next_Q1 = 0
-    else:
-        next_Q1 = Q1_s + p2 - p1
-
-    if Q0_s + p1 < 0:
-        next_Q0 = 0
-    else:
-        next_Q0 = Q0_s + p1
+        
+        
+        p4 = Q4_s*w[0] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+        p3 = Q3_s*w[1] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+        p2 = Q2_s*w[2] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+        p1 = Q1_s*w[3] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+        
+        p4 = p4*draw_size
+        p3 = p3*draw_size
+        p2 = p2*draw_size
+        p1 = p1*draw_size
+        
+        if Q4_s - p4 < 0:
+            next_Q4 = 0
+        else:
+            next_Q4 = Q4_s - p4
+    
+        if Q3_s + p4 - p3 < 0:
+            next_Q3 = 0
+        else:
+            next_Q3 = Q3_s + p4 - p3
+    
+        if Q2_s + p3 - p2 < 0:
+            next_Q2 = 0
+        else:
+            next_Q2 = Q2_s + p3 - p2
+    
+        if Q1_s + p2 - p1 < 0:
+            next_Q1 = 0
+        else:
+            next_Q1 = Q1_s + p2 - p1
+    
+        if Q0_s + p1 < 0:
+            next_Q0 = 0
+        else:
+            next_Q0 = Q0_s + p1
         
     return next_Q4, next_Q3, next_Q2, next_Q1, next_Q0
     
