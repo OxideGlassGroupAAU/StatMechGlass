@@ -1,0 +1,21 @@
+SMG ToDoList:
+  - Implement 2D plotting
+  - Wrap everything into a class
+  - Write documentation in scripts
+  - Update parameters
+  - Write README.txt
+  - Make a LICENCE.txt
+  - Make CITATION.txt
+
+Paper
+  - Motivation and significance
+  - Software description
+  - Examples
+  - Impact
+
+  - ReadMe
+  - Licence
+    - Use choosealicence.com
+  - Two practical examples
+  - Dependencies (imports)
+  - Explain novelty, necessity, version
