@@ -406,7 +406,7 @@ def smg_structure(val, tg):
 
 if __name__ == "__main__":
 
-    values = {"Si":60,"Al":15, "Na": 15}
+    values = {"B":25,"Si":50, "Na": 25}
     tg = 700
     
     res_struc = smg_structure(values, tg)
