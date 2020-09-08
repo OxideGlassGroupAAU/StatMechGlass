@@ -404,14 +404,7 @@ def smg_structure(val, tg):
     return structures
 
 
-if __name__ == "__main__":
 
-    values = {"B":25,"Si":50, "Na": 25}
-    tg = 700
-    
-    res_struc = smg_structure(values, tg)
-    
-    print("Predicted structural distribution: {}".format(res_struc))
 
 def smg_basin_binary(former, modifier, it=10):
 
@@ -672,6 +665,16 @@ def smg_ternary_par(formers, modifier, it=10):
     
     print("Parameter {} saved to {} in {}".format(par, name1, path))
     print("Parameter {} saved to {} in {}".format(par_in, name2, path))
+
+
+if __name__ == "__main__":
+
+    values = {"B":25,"Si":50, "Na": 25}
+    tg = 700
+    
+    res_struc = smg_structure(values, tg)
+    
+    print("Predicted structural distribution: {}".format(res_struc))
 
 
 
