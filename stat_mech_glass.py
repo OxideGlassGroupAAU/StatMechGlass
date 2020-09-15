@@ -21,7 +21,7 @@ import scipy.optimize
 def data_load(path, file_name, col_nr):
     data_col = []
     with open(os.path.join(path, f"{file_name}.csv"), newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
             data_col.append(row[col_nr])
     data_col = [float(i) for i in data_col]
@@ -110,7 +110,7 @@ def tg_fit(tg_data, mod):
     tg = np.array(tg)
     return tg
 
-def smg_structure(val, tg):
+def smg_structure(val, tg, p = None):
     comp = {"formers": ["Si", "B", "P"],"intermediates": ["Al"], "modifiers": ["Na", "K", "Li", "Ca"]}
     
     formers_s = comp["formers"]
@@ -154,8 +154,8 @@ def smg_structure(val, tg):
             pass
         else:
             intermediates.append(intermediates_s[i])
-    print("Intermediates in glass: {}".format(intermediates))
-    print("Intermediates conc: {}".format(i_conc))
+    # print("Intermediates in glass: {}".format(intermediates))
+    # print("Intermediates conc: {}".format(i_conc))
     for i in range(len(modifiers_s)):
         try:
             m_conc.append(val[modifiers_s[i]])
@@ -163,24 +163,24 @@ def smg_structure(val, tg):
             pass
         else:
             modifiers.append(modifiers_s[i])
-    print("Modifiers in glass: {}".format(modifiers))
+    # print("Modifiers in glass: {}".format(modifiers))
     
    
     t_n_draws = (sum(m_conc) / sum(f_conc)) *100
     
-    print("Total draws: {}".format(t_n_draws))
+    # print("Total draws: {}".format(t_n_draws))
     
     n_draws = int(t_n_draws)
     
     if t_n_draws - n_draws > 0.5:
         n_draws +=1
     
-    print("number of draws: {}".format(int(n_draws)))
-    print(formers)
-    print(intermediates)
-    print(f_conc)
-    print(modifiers)
-    print(m_conc)
+    # print("number of draws: {}".format(int(n_draws)))
+    # print(formers)
+    # print(intermediates)
+    # print(f_conc)
+    # print(modifiers)
+    # print(m_conc)
     
     # Starting concentrations:
     structures = {}
@@ -194,7 +194,7 @@ def smg_structure(val, tg):
         for i2 in start_conc:
             structures[i2] = (start_conc[i2]*f_conc[i+len(formers)]/sum(f_conc))
         
-    print("starting structures: {}".format(structures))
+    # print("starting structures: {}".format(structures))
     if len(intermediates) > 0:
         structure_val = []
         for i in structures:
@@ -247,9 +247,12 @@ def smg_structure(val, tg):
                     if i2 == 0:
                         f = 1
                     else:
-                        f_p = formers[0]+formers[i2]
-                        f_path = 'Parameters/MF'
-                        f = data_load(f_path, f_p,0)[0]
+                        if p:
+                            f = p
+                        else:
+                            f_p = formers[0]+formers[i2]
+                            f_path = 'Parameters/MF'
+                            f = data_load(f_path, f_p,0)[0]
                     path = form_lookup(formers[i2])[0]
                     w_names = form_lookup(formers[i2])[5]
                     Hi = data_load(path, modifiers[i],0)
@@ -347,9 +350,12 @@ def smg_structure(val, tg):
                     if i2 == 0:
                         f = 1
                     else:
-                        f_p = formers[0]+formers[i2]
-                        f_path = 'Parameters/MF'
-                        f = data_load(f_path, f_p,0)[0]
+                        if p:
+                            f = p
+                        else:
+                            f_p = formers[0]+formers[i2]
+                            f_path = 'Parameters/MF'
+                            f = data_load(f_path, f_p,0)[0]
                     path = form_lookup(formers[i2])[0]
                     w_names = form_lookup(formers[i2])[5]
                     Hi = data_load(path, modifiers[i],0)
@@ -591,7 +597,7 @@ def smg_ternary_SSE(p, formers, modifier):
     
     # print("Na content: {}, Si content: {}, B content: {}".format(m_data, f1_data, f2_data))
     
-    composition = {"formers": ["Si", "P", "B"], "modifiers": ["Na", "K", "Li", "Ca"]}
+    # composition = {"formers": ["Si", "P", "B", "Al"], "modifiers": ["Na", "K", "Li", "Ca"]}
     
     SSE = 0
     
@@ -600,7 +606,8 @@ def smg_ternary_SSE(p, formers, modifier):
         tg = tg_data[i]
         # print("Values for {}: {}".format(i,values))
         # print("Tg:{}".format(tg))
-        res_struc = smg_ternary(composition, values, tg, p)
+        # res_struc = smg_ternary(composition, values, tg, p)
+        res_struc = smg_structure(values, tg, p)
         
         data_ind = 4
         for i2 in range(len(formers)):
@@ -619,13 +626,13 @@ def smg_ternary_SSE(p, formers, modifier):
     return SSE
 
     
-# ter_form = ["Si", "B"]
+# ter_form = ["Al", "B"]
 # ter_mod = "Na"
 # p=2
 
-# smg_ternary_SSE(p, ter_form, ter_mod)
+# SSE_return = smg_ternary_SSE(p, ter_form, ter_mod)
 
-
+# print(SSE_return)
 def smg_ternary_p_opt(formers, modifier, it=10):
     
     w0 = 1
@@ -638,12 +645,12 @@ def smg_ternary_p_opt(formers, modifier, it=10):
 
     return res.x
 
-# ter_form = ["Si", "B"]
-# ter_mod = "Na"
-# it = 2
+ter_form = ["Al", "B"]
+ter_mod = "Na"
+it = 5
 
-# opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
-# print("Optimal parameter: {}".format(opt_par))
+opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
+print("Optimal parameter: {}".format(opt_par))
 
 def smg_ternary_par(formers, modifier, it=10):
     par = float(smg_ternary_p_opt(formers, modifier, it))
@@ -667,14 +674,14 @@ def smg_ternary_par(formers, modifier, it=10):
     print("Parameter {} saved to {} in {}".format(par_in, name2, path))
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    values = {"B":25,"Si":50, "Na": 25}
-    tg = 700
+#     values = {"B":25,"Si":50, "Na": 25}
+#     tg = 700
     
-    res_struc = smg_structure(values, tg)
+#     res_struc = smg_structure(values, tg)
     
-    print("Predicted structural distribution: {}".format(res_struc))
+#     print("Predicted structural distribution: {}".format(res_struc))
 
 
 
