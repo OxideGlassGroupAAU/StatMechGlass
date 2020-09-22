@@ -603,18 +603,23 @@ def smg_ternary_SSE(p, formers, modifier):
     
     for i in range(len(m_data)):
         values = {formers[0]:f1_data[i], formers[1]:f2_data[i], modifier: m_data[i]}
+        # print(values)
         tg = tg_data[i]
         # print("Values for {}: {}".format(i,values))
         # print("Tg:{}".format(tg))
+        # print(p)
         # res_struc = smg_ternary(composition, values, tg, p)
         res_struc = smg_structure(values, tg, p)
-        
+        # print(res_struc)
         data_ind = 4
         for i2 in range(len(formers)):
             data_q = form_lookup(formers[i2])[9]
             for i3 in range(len(data_q)):
                 data = data_load(data_path, modifier, data_ind)[i]
-                SSE += (data-res_struc[data_q[i3]])**2
+                # print(data)
+                # print(float(res_struc[data_q[i3]]))
+                # print(p)
+                SSE += (data-float(res_struc[data_q[i3]]))**2
                 data_ind +=1
                 # print("For glass {} and group {}: {}".format(i,data_q[i3], data))
                 
@@ -647,7 +652,7 @@ def smg_ternary_p_opt(formers, modifier, it=10):
 
 ter_form = ["Al", "B"]
 ter_mod = "Na"
-it = 5
+it = 3
 
 opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
 print("Optimal parameter: {}".format(opt_par))
@@ -674,14 +679,14 @@ def smg_ternary_par(formers, modifier, it=10):
     print("Parameter {} saved to {} in {}".format(par_in, name2, path))
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     values = {"B":25,"Si":50, "Na": 25}
-#     tg = 700
+    values = {"Al":25,"B":50, "Na": 25}
+    tg = 700
     
-#     res_struc = smg_structure(values, tg)
+    res_struc = smg_structure(values, tg, p=22.10139584)
     
-#     print("Predicted structural distribution: {}".format(res_struc))
+    print("Predicted structural distribution: {}".format(res_struc))
 
 
 

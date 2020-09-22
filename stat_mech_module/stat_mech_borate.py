@@ -53,9 +53,14 @@ def B_onedraw(w, start_conc, draw_size, back=False):
         
         # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p_B3, p_B4, p_B2, p_B1))
             #Contribution to N4 from B
-        CB0 = p_B0 / (p_B0 + p_B4 + p_B1)
-        CB1 = p_B1 / (p_B0 + p_B4 + p_B1)
-        CB4 = p_B4 / (p_B0 + p_B4 + p_B1)
+        if p_B0 == 0 and p_B1 == 0 and p_B4 == 0:
+            CB0 = 0
+            CB1 = 0
+            CB4 = 0
+        else:
+            CB0 = p_B0 / (p_B0 + p_B4 + p_B1)
+            CB1 = p_B1 / (p_B0 + p_B4 + p_B1)
+            CB4 = p_B4 / (p_B0 + p_B4 + p_B1)
         
         # print("CB0, CB1, CB4:{}, {}, {}".format(CB0,CB1,CB4))
         
