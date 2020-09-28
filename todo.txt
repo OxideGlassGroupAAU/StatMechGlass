@@ -1,6 +1,4 @@
 SMG ToDoList:
-  - Implement 2D plotting
-  - Wrap everything into a class
   - Write documentation in scripts
   - Update parameters
   - Write README.txt
