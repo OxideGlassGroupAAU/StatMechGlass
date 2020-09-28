@@ -63,9 +63,9 @@ def Si_onedraw(w, start_conc, draw_size, back = False):
         
         sum_p2 = p0+p3+p2+p1
         
-        print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
+        # print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
         
-        print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p0, p1, p2, p3))
+        # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p0, p1, p2, p3))
         
         
         if Q0_s + p0 < 0:
@@ -98,7 +98,7 @@ def Si_onedraw(w, start_conc, draw_size, back = False):
             next_Q4 = Q4_s - p3
             
             
-        print("Q4, Q3, Q2, Q1 and Q0 change: {}, {}, {}, {}, {}, and sum: {}".format(Q4_s-next_Q4, Q3_s-next_Q3, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0, sum([Q3_s-next_Q3, Q4_s-next_Q4, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0])))
+        # print("Q4, Q3, Q2, Q1 and Q0 change: {}, {}, {}, {}, {}, and sum: {}".format(Q4_s-next_Q4, Q3_s-next_Q3, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0, sum([Q3_s-next_Q3, Q4_s-next_Q4, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0])))
          
          
     else:

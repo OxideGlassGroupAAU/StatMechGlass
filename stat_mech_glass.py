@@ -6,6 +6,7 @@ Created on Wed Feb 12 14:40:28 2020
 @author: mikkel
 """
 
+import matplotlib.pyplot as plt
 import stat_mech_module as smm
 import csv
 import numpy as np
@@ -19,11 +20,14 @@ import scipy.optimize
 
 
 def data_load(path, file_name, col_nr):
+    current_dir = os.getcwd()
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     data_col = []
     with open(os.path.join(path, f"{file_name}.csv"), newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
             data_col.append(row[col_nr])
+    os.chdir(current_dir)
     data_col = [float(i) for i in data_col]
     data_col = np.array(data_col)
     return data_col
@@ -450,7 +454,12 @@ def smg_binary_par(former, modifier, it=10):
     
     path = form_lookup(former)[0]
     
+    current_dir = os.getcwd()
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    
     np.savetxt(os.path.join(path, "{}.csv".format(modifier)), par)
+    
+    os.chdir(current_dir)
     
     return print("Parameters {} saved to {} in {}".format(par, modifier, path))
 
@@ -650,22 +659,18 @@ def smg_ternary_p_opt(formers, modifier, it=10):
 
     return res.x
 
-ter_form = ["Al", "B"]
-ter_mod = "Na"
-it = 3
 
-opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
-print("Optimal parameter: {}".format(opt_par))
 
 def smg_ternary_par(formers, modifier, it=10):
     par = float(smg_ternary_p_opt(formers, modifier, it))
-    print(par)
     par_in = 1/par
-    print(par_in)
     path = "Parameters/MF/"
     
     name1 = formers[0]+formers[1]
     name2 = formers[1]+formers[0]
+    
+    current_dir = os.getcwd()
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
     with open('{}{}.csv'.format(path, name1), 'w') as f:
         f.write(str(par))
@@ -675,18 +680,63 @@ def smg_ternary_par(formers, modifier, it=10):
         f.write(str(par_in))
         f.close()
     
+    os.chdir(current_dir)
+    
     print("Parameter {} saved to {} in {}".format(par, name1, path))
     print("Parameter {} saved to {} in {}".format(par_in, name2, path))
 
+def smg_plot(comps, free_comp, tg, plt_save = False):
+    
+    for i in range(101):
+        comps[free_comp] = i
+        structures = smg_structure(comps, tg)
+        if i == 0:
+            structures_end = structures
+            for key in structures_end:
+                structures_end[key] = [structures_end[key]]
+        else:
+            for key in structures:
+                structures_end[key].append(structures[key])
+        # print("Structures for it {}: {}".format(i, structures))
 
+    # print(structures_end)
+    plt_legend = []
+    for key in structures_end:
+        plt.plot(range(101), structures_end[key])
+        plt_legend.append(key)
+    plt.legend(plt_legend)
+    plt.xlabel("Modifier mol")
+    plt.ylabel(f"Structure species concentration")
+    if plt_save:
+        plt_name = ""
+        for key in comps:
+            plt_name += key
+        plt.savefig(('{}_plot.png'.format(plt_name)))
+    plt.show()
+    
+    
 if __name__ == "__main__":
-
-    values = {"Al":25,"B":50, "Na": 25}
-    tg = 700
     
-    res_struc = smg_structure(values, tg, p=22.10139584)
+    fit = False
     
-    print("Predicted structural distribution: {}".format(res_struc))
+    if fit:
+        
+        ter_form = ["Al", "Si"]
+        ter_mod = "Ca"
+        it = 50
+        
+        ## Kør første linje når du vil gemme resultatet
+        # opt_par = float(smg_ternary_par(ter_form, ter_mod, it))
+        opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
+        print("Optimal parameter: {}".format(opt_par))
+    else:
+        
+        values = {"Si":25, "B":13}
+        tg = 800
+        
+        smg_plot(values, "Na", tg, plt_save = False)
+        
+        # print("Predicted structural distribution: {}".format(res_struc))
 
 
 
