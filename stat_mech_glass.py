@@ -195,6 +195,7 @@ def smg_structure(val, tg, p = None):
     This function will calculate the structural distribution of any glass 
     composition. The function requires accurate relative reaction enthalpies 
     for all possible chemical interactions in the glass melt. 
+    
  =============================================================================
     smg_structure(val, tg, p = None)
  =============================================================================
@@ -203,16 +204,17 @@ def smg_structure(val, tg, p = None):
     val should be a python dictionary in the form: {"Si":25, "B":25, "Na":50}.
     Please refer to the README file for elaboration on the naming convention.
 
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
+    tg is the temperature atoms in the glass-forming liquid stops rearranging 
+    due to the kinetic barrier. This is assumed to be equal to the fictive temperature
+    of the glass. The higher the tg, the more disorder in the structural distribution.
 
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
+    p is only used when the function is called by the ternary glass parameter optimization. 
+    This parameter should not be altered manually
 
 
     Example:
 
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    >>> res_structures = smg_structure({"Si":25, "B": 25, "Na":50}, tg = 700)
     """
     comp = {"formers": ["Si", "B", "P"],"intermediates": ["Al"], "modifiers": ["Na", "K", "Li", "Ca"]}
     
@@ -517,29 +519,31 @@ def smg_structure(val, tg, p = None):
 
 def smg_basin_binary(former, modifier, it=10):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
+    This function will calculate interaction enthalpies for binary oxide glasses.
+    If you wish to automatically save the parameter to your /Parameter directory,
+    please refer to the smg_binary_par function 
+    This function requires quantitative experimental data for structural distribution 
+    and fictive temperature. Refer to README for details of data file formatting
+    
  =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
+    smg_basin_binary(former, modifier, it=10)
  =============================================================================
 
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
+    where former and modifier are string parameters such as "Si" and "Na".
+    Please refer to the README file for elaboration on the naming convention.
 
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
+    it is the number of iterations the basinhopping parameter optimazation
+    function will run. Please refer to the manuscript for elaboration
 
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
+    The function requires structural data in the /Data directory under the directory
+    with the same name as the desired former. In the sodium silicate example, a Na.csv
+    file should be placed in the Data/SiO2 directory. Additionally, tg data should 
+    be provided in a seperate Na_tg.csv file in the same directory
 
     Example:
 
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    >>> optimal_parameters = smg_basin_binary("Si", "Na", it=500)
     """
-
     draw_nr = list(range(400))
     draw_ar = np.array(draw_nr)
             
@@ -572,6 +576,33 @@ def smg_basin_binary(former, modifier, it=10):
 
 
 def smg_binary_par(former, modifier, it=10):
+    """
+    This function will calculate and save interaction enthalpies for binary oxide glasses.
+    If you don't wish to automatically save the parameter to your /Parameter directory,
+    please refer to the smg_basin_binary function 
+    This function requires quantitative experimental data for structural distribution 
+    and fictive temperature. Refer to README for details of data file formatting
+    
+ =============================================================================
+    smg_binary_par(former, modifier, it=10)
+ =============================================================================
+
+    where former and modifier are string parameters such as "Si" and "Na".
+    Please refer to the README file for elaboration on the naming convention.
+
+    it is the number of iterations the basinhopping parameter optimazation
+    function will run. Please refer to the manuscript for elaboration
+
+    The function requires structural data in the /Data directory under the directory
+    with the same name as the desired former. In the sodium silicate example, a Na.csv
+    file should be placed in the Data/SiO2 directory. Additionally, tg data should 
+    be provided in a seperate Na_tg.csv file in the same directory
+
+    Example:
+
+    >>> smg_binary_par("Si", "Na", it=500)
+    """
+    
     par = smg_basin_binary(former, modifier, it)
     
     path = form_lookup(former)[0]
@@ -597,173 +628,11 @@ def smg_binary_par(former, modifier, it=10):
 
 # smg_binary_par(form, mod, iterations)
 
-
-def smg_ternary(comp, val, tg, p):
-    """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
- =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
- =============================================================================
-
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
-
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
-
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
-
-    Example:
-
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
-    """
-    
-    formers_s = comp["formers"]
-    formers = []
-    f_conc = []
-    modifiers_s = comp["modifiers"]
-    modifiers = []
-    m_conc =[]
-    
-    # print("Possible formers: {}".format(formers_s))
-    # print("Possible modifiers: {}".format(modifiers_s))
-    for i in range(len(formers_s)):
-        a_frac = form_lookup(formers_s[i])[6]
-        try:
-            f_conc.append(val[formers_s[i]]/a_frac)
-        except:
-            pass
-        else:
-            formers.append(formers_s[i])
-    # print("Formers in glass: {}".format(formers))
-        
-    for i in range(len(modifiers_s)):
-        try:
-            m_conc.append(val[modifiers_s[i]])
-        except:
-            pass
-        else:
-            modifiers.append(modifiers_s[i])
-    # print("Modifiers in glass: {}".format(modifiers))
-    
-    t_n_draws = (sum(m_conc) / sum(f_conc)) *100
-    
-    # print("Total draws: {}".format(t_n_draws))
-    
-    n_draws = int(t_n_draws)
-    
-    if t_n_draws - n_draws > 0.5:
-        n_draws +=1
-    
-    # print("number of draws: {}".format(int(n_draws)))
-    # print(formers)
-    # print(f_conc)
-    # print(modifiers)
-    # print(m_conc)
-    
-    # Starting concentrations:
-    structures = {}
-    for i in range(len(formers)):
-        start_conc = form_lookup(formers[i])[4]
-        for i2 in start_conc:
-            structures[i2] = (start_conc[i2]*f_conc[i]/sum(f_conc))
-        
-    # print("starting structures: {}".format(structures))
-    
-    # Defining weighting factors
-    for m in range(n_draws):
-        weights = {}
-        draws = []
-        for i in range(len(modifiers)):
-            m_weights = {}
-            m_draws = []
-            for i2 in range(len(formers)):
-                if i2 == 0:
-                    f = 1
-                else:
-                    f = p
-                path = form_lookup(formers[i2])[0]
-                w_names = form_lookup(formers[i2])[5]
-                Hi = data_load(path, modifiers[i],0)
-                
-                m_weights[w_names[0]] = 1*f
-                
-                struc_keys = list(form_lookup(formers[i2])[4].keys())
-                m_draws.append(m_weights[w_names[0]]*structures[struc_keys[0]])
-                
-                for i3 in range(len(Hi)):
-                    m_weights[w_names[i3+1]] = (math.exp(-Hi[i3]/(tg*0.008314)))*f
-                    m_draws[i2] += m_weights[w_names[i3+1]]*structures[struc_keys[i3+1]]
-            
-            for i4 in m_weights:
-                try:
-                    weights[i4] += m_weights[i4]*(m_conc[i]/sum(m_conc))
-                except:
-                    weights[i4] = m_weights[i4]*(m_conc[i]/sum(m_conc))
-            
-            for i5 in range(len(m_draws)):
-                try:
-                    draws[i5] += m_draws[i5]
-                except:
-                    draws.append(m_draws[i5])
-        
-        draws_norm = []
-        for i in range(len(draws)):
-            draws_norm.append(draws[i] / sum(draws))
-        
-        # print("Draws for step {}: {}".format(m, draws_norm))
-        
-        for i in range(len(formers)):
-            step_conc_ind = list(form_lookup(formers[i])[4].keys())
-            step_conc = []
-            for i2 in step_conc_ind:
-                step_conc.append(structures[i2])
-            
-            step_w_ind = form_lookup(formers[i])[5]
-            step_w = []
-            for i2 in step_w_ind:
-                step_w.append(weights[i2])
-                
-            onedraw_fun = form_lookup(formers[i])[3]
-            
-            new_conc = list(onedraw_fun(step_w, step_conc, draws_norm[i]))
-            
-            for i3 in range(len(step_conc_ind)):
-                structures[step_conc_ind[i3]] = new_conc[i3]
-    
-        # print("Structures for step {}: {}".format(m, structures))
-    
-    
-    return structures
     
 def smg_ternary_SSE(p, formers, modifier):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
- =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
- =============================================================================
-
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
-
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
-
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
-
-    Example:
-
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    This function will return the SSE when fitting ternary oxide glass parameters.
+    The function is not meant for manual use
     """
     
     # print(formers)
@@ -818,27 +687,30 @@ def smg_ternary_SSE(p, formers, modifier):
 # print(SSE_return)
 def smg_ternary_p_opt(formers, modifier, it=10):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
+    This function will fit former/former interactions for ternary oxide glasses.
+    If you wish to automatically save the parameter to your /Parameter directory,
+    please refer to the smg_ternary_par function 
+    This function requires quantitative experimental data for structural distribution 
+    and fictive temperature. Refer to README for details of data file formatting
+    
  =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
+    smg_ternary_p_opt(formers, modifier, it=10)
  =============================================================================
 
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
+    where formers is a list of strings such as ["B", "Si"] and modifier such as "Na".
+    Please refer to the README file for elaboration on the naming convention.
 
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
+    it is the number of iterations the basinhopping parameter optimazation
+    function will run. Please refer to the manuscript for elaboration
 
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
+    The function requires structural data in the /Data directory under the directory
+    with the same name as the desired formers. In the sodium borosilicate example,
+    a Na.csv file should be placed in the Data/BSi directory. Additionally, tg data should 
+    be provided in the same file.
 
     Example:
 
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    >>> optimal_parameters = smg_ternary_p_opt(["B", "Si"], "Na", it=500)
     """
     
     w0 = 1
@@ -855,27 +727,30 @@ def smg_ternary_p_opt(formers, modifier, it=10):
 
 def smg_ternary_par(formers, modifier, it=10):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
+    This function will fit former/former interactions for ternary oxide glasses.
+    If you don't wish to automatically save the parameter to your /Parameter directory,
+    please refer to the smg_ternary_p_opt function 
+    This function requires quantitative experimental data for structural distribution 
+    and fictive temperature. Refer to README for details of data file formatting
+    
  =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
+    smg_ternary_par(formers, modifier, it=10)
  =============================================================================
 
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
+    where formers is a list of strings such as ["B", "Si"] and modifier such as "Na".
+    Please refer to the README file for elaboration on the naming convention.
 
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
+    it is the number of iterations the basinhopping parameter optimazation
+    function will run. Please refer to the manuscript for elaboration
 
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
+    The function requires structural data in the /Data directory under the directory
+    with the same name as the desired formers. In the sodium borosilicate example,
+    a Na.csv file should be placed in the Data/BSi directory. Additionally, tg data should 
+    be provided in the same file.
 
     Example:
 
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    >>> smg_ternary_par(["B", "Si"], "Na", it=500)
     """
     
     par = float(smg_ternary_p_opt(formers, modifier, it))
@@ -903,27 +778,30 @@ def smg_ternary_par(formers, modifier, it=10):
 
 def smg_plot(comps, free_comp, tg, plt_save = False):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
+    This function will plot the structures obtained by the smg_structure function.
+    The function takes the composition of the glass, the variable component and 
+    a glass transition temperature.
 
  =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
+    smg_plot(comps, free_comp, tg, plt_save = False):
  =============================================================================
 
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
+    where comps is the chemical composition of the desired glass.
+    comps should be a python dictionary in the form: {"Si":50, "B":50, "Na":0}.
+    Please refer to the README file for elaboration on the naming convention.
 
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
+    free_comp is free component which will be plotted on the x-axis.
+    It should be a string such as "Na"
 
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
+    tg is the glass transition temperature used for calculating the structures 
+    for plotting.
+    
+    plt_save will determine whether or not the plot will be saved in png format
 
 
     Example:
 
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    >>> smg_plot({"Si":50, "B":50, "Na":0}, "Na", 800, plt_save = True)
     """
     
     for i in range(101):
