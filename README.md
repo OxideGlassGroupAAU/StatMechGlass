@@ -18,26 +18,28 @@ The basic format of the package follows:
 
 StatMechGlass
   .
-  |-Data
-  ||-SiO2
-  |||-Na.csv
-  |||-Na_Tg.csv
-  ||-SiB
-  |||-Na.csv
-  |-Parameter
-  ||-SiO2
-  |||-Na.csv
-  ||-MF
-  |||-SiB.csv
-  |-stat_mech_module
-  ||-__init__.py
-  ||-stat_mech_silicate.py
-  ||-stat_mech_borate.py
-  |-LICENCE.txt
-  |-CITATION.txt
-  |-README.md
-  |-__init__.py
-  |-stat_mech_glass.py
+  ├── Data
+  │   ├── SiB
+  │   │   ├── Na.csv
+  │   └── SiO2
+  │       ├── Na.csv
+  │       ├── Na_Tg.csv
+  ├── Parameters
+  │   ├── MF
+  │   │   ├── BAl.csv
+  │   │   └── SiB.csv
+  │   └── SiO2
+  │       ├── K.csv
+  │       └── Na.csv
+  ├── stat_mech_module
+  │   ├── __init__.py
+  │   ├── stat_mech_borate.py
+  │   ├── stat_mech_phosphate.py
+  │   └── stat_mech_silicate.py
+  ├── __init__.py
+  ├── LICENCE
+  ├── README.md
+  ├── stat_mech_glass.py
 
 Here, the /Data directory is where you want to place your experimentally
 obtained data. The /parameter directory is where the package will automatically
