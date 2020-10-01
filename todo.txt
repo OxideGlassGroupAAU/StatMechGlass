@@ -1,7 +1,5 @@
 SMG ToDoList:
-  - Write documentation in scripts
   - Write README.txt
-  - Make a LICENCE.txt
   - Make CITATION.txt
 
 Paper
