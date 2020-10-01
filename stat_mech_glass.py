@@ -5,13 +5,6 @@ Created on Wed Feb 12 14:40:28 2020
 
 @author: M.S. Bødker
 
-This module is made specifically for the Lorenz attractor ODE system.
-It contains two functions; "dif" and "figs".
-The "dif" function will make a numerical solution to the three coupled first
-order ODEs when given the necessary variables.
-The "figs" function will plot and save the resulting diagrams from the data
-produced by the "dif" function
-
 """
 
 import matplotlib.pyplot as plt
