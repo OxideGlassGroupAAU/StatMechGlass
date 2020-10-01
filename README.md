@@ -16,7 +16,7 @@ Any bugs or questions, do not hesitate to contact msb@bio.aau.dk or mos@bio.aau.
 
 The basic format of the package follows:
 
-StatMechGlass
+StatMechGlass  
   .
   ├── Data  
   │   ├── SiB  
