@@ -82,11 +82,11 @@ When building the enthalpy database, use smg.smg_binary_par:
 
   3.  Execute the function
       ```python  
-          smg.smg_binary_par(former, modifier, it=10)
+      smg.smg_binary_par(former, modifier, it=10)
       ```  
       Example:  
       ```python
-          smg.smg_binary_par("Si", "Na", it=500)  
+      smg.smg_binary_par("Si", "Na", it=500)  
       ```
       500 or more iterations are advised for accurate enthalpies (refer to the
       manuscript for more details)
@@ -108,11 +108,11 @@ When building the former/former interaction database, use smg.smg_ternary_par:
 
   3.  Execute the function  
       ```python
-          smg.smg_ternary_par(formers, modifier, it=10)  
+      smg.smg_ternary_par(formers, modifier, it=10)  
       ```
       Example:  
       ```python
-          smg.smg_ternary_par(["Si", "B"], "Na", it=100)  
+      smg.smg_ternary_par(["Si", "B"], "Na", it=100)  
       ```
       100 or more iterations are advised for accurate parameter (refer to the
       manuscript for more details)
@@ -129,12 +129,12 @@ When using the model to predict structural distributions, use smg.smg_structure:
   1.  Define the glass composition using python directory  
       Example:  
       ```python
-          glass_comp = {"Si": 25, "B": 25, "Na": 25, "K":25}  
+      glass_comp = {"Si": 25, "B": 25, "Na": 25, "K":25}  
       ```
   2.  Run the function with a defined tg  
       Example:  
       ```python
-          results = smg.smg_structure(glass_comp, 700)  
+      results = smg.smg_structure(glass_comp, 700)  
       ```
 
 This way, users may easily build a database of structures from a large set of
@@ -149,16 +149,16 @@ visualization, the smg.smg_plot function may be used:
   1.  Define the glass composition using python directory  
       Example:  
       ```python
-          glass_comp = {"Si": 25, "B": 25, "Na": 0}  
+      glass_comp = {"Si": 25, "B": 25, "Na": 0}  
       ```
       Alternatively, leave out the free component:  
       ```python
-          glass_comp = {"Si": 25, "B": 25}  
+      glass_comp = {"Si": 25, "B": 25}  
       ```
   2.  Run the function with a defined tg and free component  
       Example:  
       ```python
-          smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
+      smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
       ```
       Set plt_save to True for saving the plot as .png file  
 
