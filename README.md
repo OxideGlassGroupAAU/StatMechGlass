@@ -188,13 +188,13 @@ Example with numbers:
 The structures reported depend on the network forming species:  
 
 SiO<sub>2</sub>:  
-Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+`Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
 B<sub>2</sub>O<sub>3</sub>:  
-B<sup>4</sup>  
+`B<sup>4</sup>`  
 P<sub>2</sub>O<sub>5</sub>:  
-Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+`Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
 Al<sub>2</sub>O<sub>3</sub>:  
-Al<sup>4</sup>,Al<sup>5/6*</sup>  
+`Al<sup>4</sup>,Al<sup>5/6*</sup>`  
 
 * Note that Al<sup>5</sup> and Al<sup>6</sup> species are combined.
 
@@ -211,9 +211,9 @@ modifier_mol%,former1_mol%,former2_mol%,<sub>g</sub>,former1_structures,former2_
 The structures provided should follow the convention explained in Section 4.2.1 and be in order of
 network forming species.  
 Example data file for smg.smg_ternary_par(["Si", "B"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
+`Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>`  
 Example for smg.smg_ternary_par(["B", "Si"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+`Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
 
 # 5. Final remarks
 
