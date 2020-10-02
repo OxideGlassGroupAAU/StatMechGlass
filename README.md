@@ -103,3 +103,61 @@ When building the former/former interaction database, use smg.smg_ternary_par:
           smg.smg_binary_par(["Si", "B"], "Na", it=100)  
       100 or more iterations are advised for accurate parameter (refer to the
       manuscript for more details)
+
+3.3. Predicting the structural distribution in a given composition
+
+The number of compositions to be predicted by the model increases exponentially
+when building the enthalpy database. This is due to the tranferability of the
+interaction enthalpies. That is, enthalpies established from Na2O-SiO2 and Na2O-B2O3
+glasses may also be used to predict any Na2O-B2O3-SiO2 composition.  
+
+When using the model to predict structural distributions, use smg.smg_structure:
+
+  1.  Define the glass composition using python directory  
+      Example:  
+          glass_comp = {"Si": 25, "B": 25, "Na": 25, "K":25}  
+  2.  Run the function with a defined tg  
+      Example:  
+          results = smg.smg_structure(glass_comp, 700)
+
+This way, users may easily build a database of structures from a large set of
+glass compositions
+
+3.4. Simple 2D plotting
+
+As glass compositions may consist of many different elements, smg.smg_structure
+can be used to return structures which the user may plot themselves. For simple
+visualization, the smg.smg_plot function may be used:
+
+  1.  Define the glass composition using python directory  
+      Example:  
+          glass_comp = {"Si": 25, "B": 25, "Na": 0}  
+      Alternatively, leave out the free component:  
+          glass_comp = {"Si": 25, "B": 25}  
+  2.  Run the function with a defined tg and free component  
+      Example:  
+          smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
+      Set plt_save to True for saving the plot as .png file
+
+4. Naming convention
+
+For the script to locate files, parameters and functions, a certain naming
+convention was introduced which must be followed:
+
+4.1. Network formers and modifiers
+
+When calling network formers in any function these are abbreviated to their
+basic atom:  
+"Si", "B", "Al", "P"  
+Example:  
+25SiO2-25B2O3-50Na2O should be {"Si": 25, "B": 25, "Na": 50}. Note that the
+glass contains 2 boron atoms for each silicon atom but in the naming convention
+they seem to contain the same number of atoms.
+
+When using modifiers in the functions, these should be named according to the data
+files provided by the user. If the datafile is named "Na.csv", "Na" should be used
+in the functions.
+
+4.2 Datafiles
+
+4.2.1 Binary oxide glass data

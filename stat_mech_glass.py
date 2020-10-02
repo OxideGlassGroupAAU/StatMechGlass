@@ -22,27 +22,7 @@ import scipy.optimize
 
 def data_load(path, file_name, col_nr):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
- =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
- =============================================================================
-
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
-
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
-
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
-
-    Example:
-
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    This function should not be called manually
     """
     current_dir = os.getcwd()
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -59,27 +39,7 @@ def data_load(path, file_name, col_nr):
 
 def form_lookup(former, modifier = None):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
- =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
- =============================================================================
-
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
-
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
-
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
-
-    Example:
-
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    This function should not be called manually
     """
     fil = modifier
     dat = 0
@@ -145,27 +105,7 @@ def form_lookup(former, modifier = None):
 
 def tg_fit(tg_data, mod):
     """
-    This function will plot the SRO scale structural evolution of silicate
-    glasses by accounting for the enthalpic and entropic contributons to
-    modifier-former interactions.
-
- =============================================================================
-    model(H1, H2 = None, frac = None, s_plt = False, s_dat = False)
- =============================================================================
-
-    where H1 is the necessary enthalpic contribution in a bunary glass.
-    Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
-
-    H2 may be set to enthalpy values for a second modifier, where frac defines
-    the fraction of the first to second modifier (0-1).
-
-    s_plt and s_dat may be set to "True" to save the plot and data as png and
-    csv files
-
-
-    Example:
-
-    >>> model(HNaSi, H2 = HLiSi, frac = 0.6, s_plt = True, s_dat = True)
+    This function should not be called manually
     """
     x = np.array(tg_data[0])
     x = x.reshape(-1, 1)
