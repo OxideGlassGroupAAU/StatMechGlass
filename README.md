@@ -241,7 +241,7 @@ Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,B<su
 
 Thank you for using the software!  
 Upon building on the software or enthalpy database, you are encouraged to make a pull request.  
-Thanks,  
 
+Thanks,  
 Mikkel Bødker, PhD Student,  
 Oxide Glass Chemistry Group, Department of Chemistry and Bioscience, Aalborg University, Denmark
