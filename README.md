@@ -80,10 +80,14 @@ When building the enthalpy database, use smg.smg_binary_par:
       The T<sub>g</sub> data does not need to be for the same glass compositions as the
       structural data
 
-  3.  Execute the function  
-          smg.smg_binary_par(former, modifier, it=10)  
+  3.  Execute the function
+      ```python  
+          smg.smg_binary_par(former, modifier, it=10)
+      ```  
       Example:  
+      ```python
           smg.smg_binary_par("Si", "Na", it=500)  
+      ```
       500 or more iterations are advised for accurate enthalpies (refer to the
       manuscript for more details)
 
@@ -103,9 +107,13 @@ When building the former/former interaction database, use smg.smg_ternary_par:
       Refer to section 4 for clarification on data file content
 
   3.  Execute the function  
+      ```python
           smg.smg_ternary_par(formers, modifier, it=10)  
+      ```
       Example:  
+      ```python
           smg.smg_ternary_par(["Si", "B"], "Na", it=100)  
+      ```
       100 or more iterations are advised for accurate parameter (refer to the
       manuscript for more details)
 
@@ -120,10 +128,14 @@ When using the model to predict structural distributions, use smg.smg_structure:
 
   1.  Define the glass composition using python directory  
       Example:  
+      ```python
           glass_comp = {"Si": 25, "B": 25, "Na": 25, "K":25}  
+      ```
   2.  Run the function with a defined tg  
       Example:  
-          results = smg.smg_structure(glass_comp, 700)
+      ```python
+          results = smg.smg_structure(glass_comp, 700)  
+      ```
 
 This way, users may easily build a database of structures from a large set of
 glass compositions
@@ -136,12 +148,18 @@ visualization, the smg.smg_plot function may be used:
 
   1.  Define the glass composition using python directory  
       Example:  
+      ```python
           glass_comp = {"Si": 25, "B": 25, "Na": 0}  
+      ```
       Alternatively, leave out the free component:  
+      ```python
           glass_comp = {"Si": 25, "B": 25}  
+      ```
   2.  Run the function with a defined tg and free component  
       Example:  
+      ```python
           smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
+      ```
       Set plt_save to True for saving the plot as .png file  
 
 This will make a plot of 25SiO<sub>2</sub>-25B<sub>2</sub>O<sub>3</sub> as a function of Na<sub>2</sub>O content.
@@ -188,13 +206,16 @@ Example with numbers:
 The structures reported depend on the network forming species:  
 
 SiO<sub>2</sub>:  
-`Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
+Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+
 B<sub>2</sub>O<sub>3</sub>:  
-`B<sup>4</sup>`  
+B<sup>4</sup>  
+
 P<sub>2</sub>O<sub>5</sub>:  
-`Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
+Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+
 Al<sub>2</sub>O<sub>3</sub>:  
-`Al<sup>4</sup>,Al<sup>5/6*</sup>`  
+Al<sup>4</sup>,Al<sup>5/6*</sup>  
 
 * Note that Al<sup>5</sup> and Al<sup>6</sup> species are combined.
 
@@ -211,9 +232,10 @@ modifier_mol%,former1_mol%,former2_mol%,<sub>g</sub>,former1_structures,former2_
 The structures provided should follow the convention explained in Section 4.2.1 and be in order of
 network forming species.  
 Example data file for smg.smg_ternary_par(["Si", "B"], "Na", it=100):  
-`Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>`  
+Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
+
 Example for smg.smg_ternary_par(["B", "Si"], "Na", it=100):  
-`Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>`  
+Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
 
 # 5. Final remarks
 
