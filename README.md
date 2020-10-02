@@ -6,10 +6,10 @@ in oxide glasses. To make the predictions, the model requires interaction
 enthalpies obtained by fitting to experimental data (typically obtained with
 NMR spectroscopy techniques).
 
-Despite some already obtained enthalpies, the package is designed for you to
-build your own library of enthalpies by providing relevant data to the package.
+Despite some already obtained enthalpies, the package is designed for building a
+library of enthalpies by providing relevant data to the package.
 
-For a detailed guide, please refer to "the article" (will be filled when published)
+For a detailed guide, please refer to "the article" (will be filled when published).
 Any bugs or questions, do not hesitate to contact msb@bio.aau.dk or mos@bio.aau.dk
 
 # 2. Package format
@@ -41,15 +41,15 @@ StatMechGlass
   ├── README.md  
   ├── stat_mech_glass.py  
 
-Here, the /Data directory is where you want to place your experimentally
-obtained data. The /parameter directory is where the package will automatically
+Here, experimentally obtained data should be placed in the /Data directory.
+The /parameter directory is where the package will automatically
 store the enthalpies obtained by fitting the provided data.
 
 # 3. Usage
 
-When using the package, you may type your commands in the stat_mech_glass.py
-file directly. It is advised to write your code within the `if __name__ == '__main__'`.
-Alternatively, you may place the package in the working directory and import it with
+When using the package, either type commands in the stat_mech_glass.py
+file directly. It is advised to write code within `if __name__ == '__main__'`.
+Alternatively, place the package in the working directory and import it with
 
 ```python
 import StatMechGlass.stat_mech_glass as smg
@@ -68,7 +68,7 @@ smg.smg_plot(comps, free_comp, tg, plt_save = False)
 
 When building the enthalpy database, use smg.smg_binary_par:
 
-  1.  Place your data in the Data/"Former" directory, where "Former" corresponds
+  1.  Place data in the Data/"Former" directory, where "Former" corresponds
       to the network forming specie of the glass. Currently supported formers:  
           "SiO2", "B2O3", "P2O5"  
       The data file should be named appropriately such as "Na.csv" or "K.csv"  
@@ -95,7 +95,7 @@ When building the enthalpy database, use smg.smg_binary_par:
 
 When building the former/former interaction database, use smg.smg_ternary_par:
 
-  1.  Place your data in the Data/"Former""Former" directory, where "Former"
+  1.  Place data in the Data/"Former""Former" directory, where "Former"
       corresponds to the network forming or intermediate specie of the glass.
       Currently supported formers and intermediates:  
           SiO<sub>2</sub>, B<sub>2</sub>O<sub>3</sub>, P<sub>2</sub>O<sub>5</sub>, Al<sub>2</sub>O<sub>5</sub>  
@@ -180,7 +180,7 @@ glass contains 2 boron atoms for each silicon atom but in the naming convention
 they seem to contain the same number of atoms.
 
 When using modifiers in the functions, these should be named according to the data
-files provided by the user. If the datafile is named "Na.csv", "Na" should be used
+files provided by the user. If the data file is named "Na.csv", "Na" should be used
 in the functions.
 
 ## 4.2 Datafiles
@@ -217,7 +217,7 @@ Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>
 Al<sub>2</sub>O<sub>3</sub>:  
 Al<sup>4</sup>,Al<sup>5/6*</sup>  
 
-* Note that Al<sup>5</sup> and Al<sup>6</sup> species are combined.
+`*` Note that Al<sup>5</sup> and Al<sup>6</sup> species are combined.
 
 The T<sub>g</sub> file should contain:  
 modifier_mol%,T<sub>g</sub>
@@ -225,21 +225,23 @@ modifier_mol%,T<sub>g</sub>
 ### 4.2.2 Ternary oxide glass data  
 
 All ternary oxide glass data files must contain "modifier concentration, first former concentration,
-second former concentration, tg" in columns 1, 2, 3, and 4, respectively:
+second former concentration, T<sub>g</sub>" in columns 1, 2, 3, and 4, respectively:
 
-modifier_mol%,former1_mol%,former2_mol%,<sub>g</sub>,former1_structures,former2_structures.  
+modifier_mol%,former1_mol%,former2_mol%,T<sub>g</sub>,former1_structures,former2_structures.  
 
 The structures provided should follow the convention explained in Section 4.2.1 and be in order of
 network forming species.  
 Example data file for smg.smg_ternary_par(["Si", "B"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
+Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
 
 Example for smg.smg_ternary_par(["B", "Si"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>2</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
 
 # 5. Final remarks
 
-Thank you for using the software!
-Upon building on the software or enthalpy database, you are encouraged to make a pull request.
-Thanks,
-Mikkel Bødker, PhD Student, Oxide Glass Chemistry Group, Department of Chemistry and Bioscience, Aalborg University, Denmark
+Thank you for using the software!  
+Upon building on the software or enthalpy database, you are encouraged to make a pull request.  
+Thanks,  
+
+Mikkel Bødker, PhD Student,  
+Oxide Glass Chemistry Group, Department of Chemistry and Bioscience, Aalborg University, Denmark
