@@ -137,9 +137,9 @@ visualization, the smg.smg_plot function may be used:
   2.  Run the function with a defined tg and free component  
       Example:  
           smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
-      Set plt_save to True for saving the plot as .png file
+      Set plt_save to True for saving the plot as .png file  
 
-4. Naming convention
+4. Naming convention  
 
 For the script to locate files, parameters and functions, a certain naming
 convention was introduced which must be followed:
@@ -160,4 +160,28 @@ in the functions.
 
 4.2 Datafiles
 
-4.2.1 Binary oxide glass data
+All data files should consist of data only. No letters
+
+4.2.1 Binary oxide glass data  
+
+All binary oxide glass data files must contain the modifier concentration in the
+first column and the structure distributions in the following columns:
+
+modifier_mol%,former_structure1,former_structure2,...former_structureN
+
+Example for Na2O-SiO2 data:  
+Na2O%,Q4%,Q3%,Q2%,Q1%,Q0%  
+Example with numbers:  
+
+20,50,48,2,0,0  
+25,38,61,1,0,0  
+28.6,27,68,5,0,0  
+33.3,11,79,10,0,0  
+
+The structures reported depend on the network forming species:  
+
+SiO<sub>2</sub>:  
+Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+B<sub>2</sub>O<sub>3</sub>:  
+B<sup>4</sup>  
+P<sub>2</sub>O<sub>5</sub>:  
