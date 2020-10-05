@@ -235,7 +235,7 @@ Example data file for smg.smg_ternary_par(["Si", "B"], "Na", it=100):
 Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
 
 Example for smg.smg_ternary_par(["B", "Si"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+Na<sub>2</sub>O%,B<sub>2</sub>O<sub>3</sub>%,SiO<sub>2</sub>%,T<sub>g</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
 
 # 5. Final remarks
 
@@ -243,5 +243,5 @@ Thank you for using the software!
 Upon building on the software or enthalpy database, you are encouraged to make a pull request.  
 
 Thanks,  
-Mikkel Bødker, PhD Student,  
+Mikkel Bødker, msb@bio.aau.dk  
 Oxide Glass Chemistry Group, Department of Chemistry and Bioscience, Aalborg University, Denmark
