@@ -8,7 +8,6 @@ Created on Wed Feb 12 14:40:28 2020
 """
 
 import matplotlib.pyplot as plt
-import stat_mech_module as smm
 import csv
 import numpy as np
 import os
@@ -17,7 +16,10 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 import scipy.optimize
 
-
+if __name__ == "__main__":
+    import stat_mech_module as smm
+else:
+    from . import stat_mech_module as smm
 
 
 def data_load(path, file_name, col_nr):
@@ -160,6 +162,8 @@ def smg_structure(val, tg, p = None):
     modifiers_s = comp["modifiers"]
     modifiers = []
     m_conc =[]
+    
+    
     
     # print("Possible formers: {}".format(formers_s))
     # print("Possible modifiers: {}".format(modifiers_s))
@@ -595,7 +599,7 @@ def smg_ternary_SSE(p, formers, modifier):
         for i2 in range(len(formers)):
             data_q = form_lookup(formers[i2])[9]
             for i3 in range(len(data_q)):
-                data = data_load(data_path, modifier, data_ind)[i]
+                data = data_load(data_path, modifier, data_ind)[i3]
                 # print(data)
                 # print(float(res_struc[data_q[i3]]))
                 # print(p)
@@ -767,25 +771,24 @@ def smg_plot(comps, free_comp, tg, plt_save = False):
     
 if __name__ == "__main__":
     
-    fit = False
-    
-    if fit:
+    # fit = False
+    # print(smg_structure({"Si":20, "B":60, "Na":20}, 700))
+    # if fit:
         
-        ter_form = ["Al", "Si"]
-        ter_mod = "Ca"
-        it = 50
+    ter_form = ["Al", "Si"]
+    ter_mod = "Ca"
+    it = 2
         
-        # opt_par = float(smg_ternary_par(ter_form, ter_mod, it))
-        opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
-        print("Optimal parameter: {}".format(opt_par))
-    else:
+    smg_ternary_par(ter_form, ter_mod, it)
+    #     opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
+    # else:
         
-        values = {"Si":25, "B":13}
-        tg = 800
+    #     values = {"Si":25, "B":13}
+    #     tg = 800
         
-        smg_plot(values, "Na", tg, plt_save = False)
+    #     smg_plot(values, "Na", tg, plt_save = False)
         
-        # print("Predicted structural distribution: {}".format(res_struc))
+    #     print("Predicted structural distribution: {}".format(res_struc))
 
 
 
