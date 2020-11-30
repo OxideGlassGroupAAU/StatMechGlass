@@ -16,7 +16,8 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 import scipy.optimize
 
-if __name__ == "__main__":
+
+if "StatMechGlass" in os.getcwd():
     import stat_mech_module as smm
 else:
     from . import stat_mech_module as smm
