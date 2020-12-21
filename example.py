@@ -18,7 +18,7 @@ smg.smg_binary_par("Si", "Na", it=10)
 
 # Na.csv is located in Data/SiB. This command will build and save the Si/B 
 # interaction parameter, using Na2O-SiO2-B2O3 data (any modifier would do)
-smg.smg_ternary_par(["Si","B"], "Na", it=1)  
+smg.smg_ternary_par(["Si","B"], "Na", it=1) 
 
 # The glass composition is defined using a python dictionary. 
 # Tis would correspond to a 25Na2O-25B2O3-25SiO2 glass

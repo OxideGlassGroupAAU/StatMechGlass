@@ -400,10 +400,10 @@ def Si_SSE(H1,  data, tg, frac = None, s_plt = False, s_dat = False, p = False):
         plt.plot(mod_data, Q4_data, 'rd', mod_data, Q3_data, 'kd', mod_data, 
                  Q2_data, 'bd', mod_data, Q1_data, 'gd', mod_data, Q0_data, 'yd',)
         plt.axis([0, 67, 0, 100])
-        plt.legend(["$Q^4$","$Q^3$","$Q^2$","$Q^1$","$Q^0$"])
+        plt.legend(["$Si^4$","$Si^3$","$Si^2$","$Si^1$","$Si^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Qn species concentration")
-        plt.title('Qn distribution')
+        plt.ylabel(f"$Si^n$ species concentration")
+        plt.title('$Si^n$ distribution')
         plt.show()
 
     if s_plt is True:
@@ -413,10 +413,10 @@ def Si_SSE(H1,  data, tg, frac = None, s_plt = False, s_dat = False, p = False):
         plt.plot(mod_data, Q4_data, 'rd', mod_data, Q3_data, 'kd', mod_data, 
                  Q2_data, 'bd', mod_data, Q1_data, 'gd', mod_data, Q0_data, 'yd',)
         plt.axis([0, 67, 0, 100])
-        plt.legend(["$Q^4$","$Q^3$","$Q^2$","$Q^1$","$Q^0$"])
+        plt.legend(["$Si^4$","$Si^3$","$Si^2$","$Si^1$","$Si^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Qn species concentration")
-        plt.title('Qn distribution')
+        plt.ylabel(f"$Si^n$ species concentration")
+        plt.title('$Si^n$ distribution')
         plt.savefig(os.path.join('SiO2_Structure', 'Qn_distribution.png'))
         plt.show()
         

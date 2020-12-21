@@ -6,10 +6,10 @@ in oxide glasses. To make the predictions, the model requires interaction
 enthalpies obtained by fitting to experimental data (typically obtained with
 NMR spectroscopy techniques).
 
-Despite some already obtained enthalpies, the package is designed for building a
+The package is designed for building a
 library of enthalpies by providing relevant data to the package.
 
-For a detailed guide, please refer to "the article" (will be filled when published).
+For a detailed guide, please refer to "the article" (will be filed when published).
 Any bugs or questions, do not hesitate to contact msb@bio.aau.dk or mos@bio.aau.dk
 
 # 2. Package format
@@ -43,12 +43,12 @@ StatMechGlass
 
 Here, experimentally obtained data should be placed in the /Data directory.
 The /parameter directory is where the package will automatically
-store the enthalpies obtained by fitting the provided data.
+store the enthalpies obtained by fitting the provided data. Some enthalpies are provided already.
 
 # 3. Usage
 
 When using the package, either type commands in the stat_mech_glass.py
-file directly. It is advised to write code within `if __name__ == '__main__'`.
+file directly or import the package to a python script. It is advised to write code within `if __name__ == '__main__'`.
 Alternatively, place the package in the working directory and import it with
 
 ```python
@@ -60,8 +60,8 @@ The four main functions:
 ```python
 smg.smg_binary_par(former, modifier, it=10)  
 smg.smg_ternary_par(formers, modifier, it=10)  
-smg.smg_structure(val, tg, p = None)  
-smg.smg_plot(comps, free_comp, tg, plt_save = False)  
+smg.smg_structure(val, T<sub>g</sub>, p = None)  
+smg.smg_plot(comps, free_comp, T<sub>g</sub>, plt_save = False)  
 ```
 
 ## 3.1 Fitting enthalpy parameters on binary oxide glasses
@@ -69,7 +69,7 @@ smg.smg_plot(comps, free_comp, tg, plt_save = False)
 When building the enthalpy database, use smg.smg_binary_par:
 
   1.  Place data in the Data/"Former" directory, where "Former" corresponds
-      to the network forming specie of the glass. Currently supported formers:  
+      to the network forming species of the glass. Currently supported formers:  
           "SiO2", "B2O3", "P2O5"  
       The data file should be named appropriately such as "Na.csv" or "K.csv"  
       Refer to Section 4 for data file layout.
@@ -131,7 +131,7 @@ When using the model to predict structural distributions, use smg.smg_structure:
       ```python
       glass_comp = {"Si": 25, "B": 25, "Na": 25, "K":25}  
       ```
-  2.  Run the function with a defined tg  
+  2.  Run the function with a defined T<sub>g</sub>
       Example:  
       ```python
       results = smg.smg_structure(glass_comp, 700)  
@@ -155,7 +155,7 @@ visualization, the smg.smg_plot function may be used:
       ```python
       glass_comp = {"Si": 25, "B": 25}  
       ```
-  2.  Run the function with a defined tg and free component  
+  2.  Run the function with a defined T<sub>g</sub> and free component  
       Example:  
       ```python
       smg.smg_plot(glass_comp, "Na", 800, plt_save = True)  
@@ -185,7 +185,7 @@ in the functions.
 
 ## 4.2 Datafiles
 
-All data files should consist of data only. No letters
+All data files should consist of numbers only. No letters
 
 ### 4.2.1 Binary oxide glass data  
 
@@ -195,7 +195,7 @@ first column and the structure distributions in the following columns:
 modifier_mol%,former_structure1,former_structure2,...former_structureN
 
 Example for Na<sub>2</sub>O-SiO<sub>2</sub> data:  
-Na<sub>2</sub>O%,Q<sup>4</sup>%,Q<sup>3</sup>%,Q<sup>2</sup>%,Q<sup>1</sup>%,Q<sup>0</sup>%  
+Na<sub>2</sub>O%,Si<sup>4</sup>%,Si<sup>3</sup>%,Si<sup>2</sup>%,Si<sup>1</sup>%,Si<sup>0</sup>%  
 Example with numbers:  
 
 20,50,48,2,0,0  
@@ -206,13 +206,13 @@ Example with numbers:
 The structures reported depend on the network forming species:  
 
 SiO<sub>2</sub>:  
-Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+Si<sup>4</sup>,Si<sup>3</sup>,Si<sup>2</sup>,Si<sup>1</sup>,Si<sup>0</sup>  
 
 B<sub>2</sub>O<sub>3</sub>:  
 B<sup>4</sup>  
 
 P<sub>2</sub>O<sub>5</sub>:  
-Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+P<sup>3</sup>,P<sup>2</sup>,P<sup>1</sup>,P<sup>0</sup>  
 
 Al<sub>2</sub>O<sub>3</sub>:  
 Al<sup>4</sup>,Al<sup>5/6*</sup>  
@@ -232,10 +232,10 @@ modifier_mol%,former1_mol%,former2_mol%,T<sub>g</sub>,former1_structures,former2
 The structures provided should follow the convention explained in Section 4.2.1 and be in order of
 network forming species.  
 Example data file for smg.smg_ternary_par(["Si", "B"], "Na", it=100):  
-Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>,B<sup>4</sup>  
+Na<sub>2</sub>O%,SiO<sub>2</sub>%,B<sub>2</sub>O<sub>3</sub>%,T<sub>g</sub>,Si<sup>4</sup>,Si<sup>3</sup>,Si<sup>2</sup>,Si<sup>1</sup>,Si<sup>0</sup>,B<sup>4</sup>  
 
 Example for smg.smg_ternary_par(["B", "Si"], "Na", it=100):  
-Na<sub>2</sub>O%,B<sub>2</sub>O<sub>3</sub>%,SiO<sub>2</sub>%,T<sub>g</sub>,B<sup>4</sup>,Q<sup>4</sup>,Q<sup>3</sup>,Q<sup>2</sup>,Q<sup>1</sup>,Q<sup>0</sup>  
+Na<sub>2</sub>O%,B<sub>2</sub>O<sub>3</sub>%,SiO<sub>2</sub>%,T<sub>g</sub>,B<sup>4</sup>,Si<sup>4</sup>,Si<sup>3</sup>,Si<sup>2</sup>,Si<sup>1</sup>,Si<sup>0</sup>  
 
 # 5. Final remarks
 

@@ -760,7 +760,7 @@ def smg_plot(comps, free_comp, tg, plt_save = False):
         plt.plot(range(101), structures_end[key])
         plt_legend.append(key)
     plt.legend(plt_legend)
-    plt.xlabel("Free component mol")
+    plt.xlabel("x")
     plt.ylabel(f"Structure species concentration")
     if plt_save:
         plt_name = ""
