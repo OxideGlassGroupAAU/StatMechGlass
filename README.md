@@ -60,8 +60,8 @@ The four main functions:
 ```python
 smg.smg_binary_par(former, modifier, it=10)  
 smg.smg_ternary_par(formers, modifier, it=10)  
-smg.smg_structure(val, T<sub>g</sub>, p = None)  
-smg.smg_plot(comps, free_comp, T<sub>g</sub>, plt_save = False)  
+smg.smg_structure(val, T<sub>g, p = None)  
+smg.smg_plot(comps, free_comp, Tg, plt_save = False)  
 ```
 
 ## 3.1 Fitting enthalpy parameters on binary oxide glasses
