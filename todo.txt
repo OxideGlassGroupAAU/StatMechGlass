@@ -1,16 +1,6 @@
 SMG ToDoList:
-  - Write README.txt
   - Make CITATION.txt
 
 Paper
-  - Motivation and significance
-  - Software description
-  - Examples
-  - Impact
-
-  - ReadMe
-  - Licence
-    - Use choosealicence.com
-  - Two practical examples
-  - Dependencies (imports)
-  - Explain novelty, necessity, version
+  - Correct
+  - Submit
