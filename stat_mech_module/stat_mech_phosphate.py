@@ -12,33 +12,27 @@ import math
 import os
 
 # Needs correction
-def P_onedraw(w, start_conc, draw_size):
+def P_onedraw(w, start_conc, draw_size, back = False):
     
-    Q4_s = start_conc[0]
-    Q3_s = start_conc[1]
-    Q2_s = start_conc[2]
-    Q1_s = start_conc[3]
-    Q0_s = start_conc[4]
+    Q3_s = start_conc[0]
+    Q2_s = start_conc[1]
+    Q1_s = start_conc[2]
+    Q0_s = start_conc[3]
+
     
-    p4 = Q4_s*w[0] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p3 = Q3_s*w[1] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p2 = Q2_s*w[2] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
-    p1 = Q1_s*w[3] / ((Q4_s*w[0])+(Q3_s*w[1])+(Q2_s*w[2])+(Q1_s*w[3]))
+    p3 = Q3_s*w[0] / ((Q3_s*w[0])+(Q2_s*w[1])+(Q1_s*w[2]))
+    p2 = Q2_s*w[1] / ((Q3_s*w[0])+(Q2_s*w[1])+(Q1_s*w[2]))
+    p1 = Q1_s*w[2] / ((Q3_s*w[0])+(Q2_s*w[1])+(Q1_s*w[2]))
     
-    p4 = p4*draw_size
+
     p3 = p3*draw_size
     p2 = p2*draw_size
     p1 = p1*draw_size
     
-    if Q4_s - p4 < 0:
-        next_Q4 = 0
-    else:
-        next_Q4 = Q4_s - p4
-
-    if Q3_s + p4 - p3 < 0:
+    if Q3_s - p3 < 0:
         next_Q3 = 0
     else:
-        next_Q3 = Q3_s + p4 - p3
+        next_Q3 = Q3_s - p3
 
     if Q2_s + p3 - p2 < 0:
         next_Q2 = 0
@@ -55,9 +49,9 @@ def P_onedraw(w, start_conc, draw_size):
     else:
         next_Q0 = Q0_s + p1
         
-    return next_Q4, next_Q3, next_Q2, next_Q1, next_Q0
+    return next_Q3, next_Q2, next_Q1, next_Q0
 
-def P_draw(H1, frac = None, s_plt = False, s_dat = False, p = False):
+def P_draw(H1, tg, frac = None, s_plt = False, s_dat = False, p = False):
     """
     This function will plot the SRO scale structural evolution of silicate 
     glasses by accounting for the enthalpic and entropic contributons to 
@@ -94,7 +88,7 @@ def P_draw(H1, frac = None, s_plt = False, s_dat = False, p = False):
     M2O.append(75) 
     M2Onp = np.array(M2O)
 
-    Tg = np.array(0.00016808*M2Onp**4 - 0.023995*M2Onp**3 + 1.18355*M2Onp**2 - 23.1234*M2Onp + 359.112)   
+    Tg = np.array(tg)
    
     w_Q3 = []
     w_Q2 = []
@@ -251,7 +245,7 @@ def P_draw(H1, frac = None, s_plt = False, s_dat = False, p = False):
     elif s_plt is False and s_dat is False and p is False:
         return M2O, Q3, Q2, Q1, Q0
 
-def P_SSE(H1,  data, frac = None, s_plt = False, s_dat = False, p = False):
+def P_SSE(H1,  data, tg, frac = None, s_plt = False, s_dat = False, p = False):
     """
     This function will plot the SRO scale structural evolution of silicate 
     glasses by accounting for the enthalpic and entropic contributons to 
@@ -282,7 +276,7 @@ def P_SSE(H1,  data, frac = None, s_plt = False, s_dat = False, p = False):
     Q1_data = data[3]
     Q0_data = data[4]
     
-    M2O, Q3, Q2, Q1, Q0 = P_draw(H1, frac)
+    M2O, Q3, Q2, Q1, Q0 = P_draw(H1, tg, frac)
             
 
     if s_plt is False and p is True:
@@ -354,11 +348,11 @@ def P_SSE(H1,  data, frac = None, s_plt = False, s_dat = False, p = False):
         
         return SSE
     
-def P_engine(fil, data, it = 10):
+def P_engine(fil, data, tg, it = 10):
     dat = data
     w0 = [20, 30]
 
-    minimizer_kwargs = {"method": "COBYLA", "args": (dat,)}
+    minimizer_kwargs = {"method": "COBYLA", "args": (dat, tg, )}
     res = scipy.optimize.basinhopping(P_SSE, w0, niter=it, T=2.0, stepsize=1, 
                                        minimizer_kwargs=minimizer_kwargs, take_step=None, 
                                        accept_test=None, callback=None, interval=50, 

@@ -83,13 +83,13 @@ def form_lookup(former, modifier = None):
         data_q = ["Al4", "Al6"]
 
     elif former == 'P':
-        path = 'Data/P2O5'
+        path = 'Parameters/P2O5'
         path2 = 'Data/P2O5'
         engine_fun, SSE_fun, draw_fun = smm.stat_mech_phosphate.P_engine, smm.stat_mech_phosphate.P_SSE, smm.stat_mech_phosphate.P_onedraw
         if modifier:
-            dat = (data_load(path, fil,0), data_load(path, fil,1), data_load(path, fil,2), 
-                   data_load(path, fil,3), data_load(path, fil,4))
-        s_conc = {"p3":100, "p2":0, "p1":0, "p0":0}
+            dat = (data_load(path2, fil,0), data_load(path2, fil,1), data_load(path2, fil,2), 
+                   data_load(path2, fil,3), data_load(path2, fil,4))
+        s_conc = {"P3":100, "P2":0, "P1":0, "P0":0}
         weight = ["wp3", "wp2", "wp1"]
         atom_frac = 1
         data_q = ["p3", "p2", "p1", "p0"]
@@ -776,11 +776,11 @@ if __name__ == "__main__":
     # print(smg_structure({"Si":20, "B":60, "Na":20}, 700))
     # if fit:
         
-    ter_form = ["Al", "Si"]
-    ter_mod = "Ca"
-    it = 2
-        
-    smg_ternary_par(ter_form, ter_mod, it)
+    # ter_form = ["Al", "Si"]
+    # ter_mod = "Ca"
+    # it = 2
+        # 
+    # smg_ternary_par(ter_form, ter_mod, it)
     #     opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
     # else:
         
@@ -791,14 +791,14 @@ if __name__ == "__main__":
         
     #     print("Predicted structural distribution: {}".format(res_struc))
 
-
-
+    # former = "P"
+    # modifier = "Na"
+    # smg_binary_par(former, modifier, it=10)
+    print(smg_structure({"P":20, "Na":20}, 700))
 # ter_form = ["Si", "B"]
 # ter_mod = "Na"
 # it = 2
 
 # opt_par = smg_ternary_par(ter_form, ter_mod, it)
-
-
 
 
