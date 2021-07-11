@@ -99,9 +99,11 @@ def form_lookup(former, modifier = None):
         path = 'Data/Al2O3B2O3'
         engine_fun, SSE_fun = smm.stat_mech_aluminoborate.AlB_engine, smm.stat_mech_aluminoborate.AlB_SSE
         if modifier:
-            dat = (data_load(path, fil,0), data_load(path, fil,3), data_load(path, fil,4), 
-                   data_load(path, fil,5), data_load(path, fil,6), data_load(path, fil,7), 
-                   data_load(path, fil,8), data_load(path, fil,9), data_load(path, fil,10))
+            dat = (data_load(path, fil,0), data_load(path, fil,3), 
+                   data_load(path, fil,4), data_load(path, fil,5), 
+                   data_load(path, fil,6), data_load(path, fil,7), 
+                   data_load(path, fil,8), data_load(path, fil,9), 
+                   data_load(path, fil,10))
         first_draw = None
     
     return path, engine_fun, SSE_fun, draw_fun, s_conc, weight, atom_frac, dat, path2, data_q, first_draw
