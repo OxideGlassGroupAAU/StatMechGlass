@@ -21,7 +21,7 @@ smg.smg_binary_par("Si", "Na", it=10)
 smg.smg_ternary_par(["Si","B"], "Na", it=1) 
 
 # The glass composition is defined using a python dictionary. 
-# Tis would correspond to a 25Na2O-25B2O3-25SiO2 glass
+# This would correspond to a 25Na2O-25B2O3-25SiO2 glass
 glass_comp = {"Si": 25, "B": 25, "Na": 25}
 # Results are stored in a variable for any desired use 
 results = smg.smg_structure(glass_comp, 700)

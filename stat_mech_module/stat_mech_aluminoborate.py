@@ -1,13 +1,7 @@
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
-import csv
 import scipy.optimize
-import math
 import os
-import datetime
-import sys
 
 
 def AlB_first_draw(w1, start_conc, former):
@@ -59,7 +53,7 @@ def AlB_first_draw(w1, start_conc, former):
             0,
         ]
 
-        ### Draw of all Al
+        # Draw of all Al
         if Al5[-1] > 0:
             while (Al_draw[-1] / 3) * 100 / (100 + (Al_draw[-1] / 3)) < Al5[
                 -1
@@ -171,14 +165,15 @@ def AlB_first_draw(w1, start_conc, former):
                 Al5.append(next_Al5)
                 Al4A.append(next_Al4A)
 
-            ## Residual Al draw ##
+            # Residual Al draw ##
             aa = (
                 (-300 * (Al5[-1] * 100 / (100 - Al4A[-1])))
                 / (-100 + (Al5[-1] * 100 / (100 - Al4A[-1])))
             ) - (-300 * (Al5[-2] * 100 / (100 - Al4A[-2]))) / (
                 -100 + (Al5[-2] * 100 / (100 - Al4A[-2]))
             )
-            b = -aa * Al_draw[-1] + (-300 * (Al5[-1] * 100 / (100 - Al4A[-1]))) / (
+            b = -aa * Al_draw[-1] + (-300 * (Al5[-1] * 100 /
+                                             (100 - Al4A[-1]))) / (
                 -100 + (Al5[-1] * 100 / (100 - Al4A[-1]))
             )
             balance_draw = (-b / (aa - 1)) - Al_draw[-2]
@@ -244,7 +239,10 @@ def AlB_first_draw(w1, start_conc, former):
                 )
             )
 
-            return Q4[-1], Q3A[-1], Q2A[-1], Q1AA[-1], Q0AAA[-1], Al5[-1], Al4A[-1]
+            return (
+                    Q4[-1], Q3A[-1], Q2A[-1], Q1AA[-1],
+                    Q0AAA[-1], Al5[-1], Al4A[-1]
+                    )
 
     if former == "B":
         w = np.array([1, abs(w1[0]), abs(w1[1]), abs(w1[2]), abs(w1[3]), 30])
@@ -293,7 +291,7 @@ def AlB_first_draw(w1, start_conc, former):
             0,
         ]
 
-        ### Draw of all Al
+        # Draw of all Al
         if Al5[-1] > 0:
             while (Al_draw[-1] / 3) * 100 / (100 + (Al_draw[-1] / 3)) < Al5[
                 -1
@@ -359,8 +357,9 @@ def AlB_first_draw(w1, start_conc, former):
                 rgQ1 = gQ1 / (gQ3 + gQ2 + gQ1 + gAl5)
                 rgAl5 = gAl5 / (gQ3 + gQ2 + gQ1 + gAl5)
 
-                # overgang
-                if (Q4A[-1] + Q2A[-1] + 2 * Q1AA[-1] + 3 * Q0AAA[-1]) < Q3[0] * w[5]:
+                if (
+                        (Q4A[-1] + Q2A[-1] + 2 * Q1AA[-1] + 3 * Q0AAA[-1])
+                        < Q3[0] * w[5]):
                     P = 1
                 else:
                     P = 0
@@ -379,8 +378,8 @@ def AlB_first_draw(w1, start_conc, former):
                     next_Q4A = 0
 
                 if (
-                    Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 + (rgQ3 * (1 - P) - rgQ2) * gQ4
-                    > 0
+                    Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 +
+                    (rgQ3 * (1 - P) - rgQ2) * gQ4 > 0
                 ):
                     next_Q2A = (
                         Q2A[-1]
@@ -427,14 +426,15 @@ def AlB_first_draw(w1, start_conc, former):
                 Al5.append(next_Al5)
                 Al4A.append(next_Al4A)
 
-            ## Residual Al draw ##
+            # Residual Al draw
             aa = (
                 (-300 * (Al5[-1] * 100 / (100 - Al4A[-1])))
                 / (-100 + (Al5[-1] * 100 / (100 - Al4A[-1])))
             ) - (-300 * (Al5[-2] * 100 / (100 - Al4A[-2]))) / (
                 -100 + (Al5[-2] * 100 / (100 - Al4A[-2]))
             )
-            b = -aa * Al_draw[-1] + (-300 * (Al5[-1] * 100 / (100 - Al4A[-1]))) / (
+            b = -aa * Al_draw[-1] + (-300 * (Al5[-1] * 100 /
+                                             (100 - Al4A[-1]))) / (
                 -100 + (Al5[-1] * 100 / (100 - Al4A[-1]))
             )
             balance_draw = (-b / (aa - 1)) - Al_draw[-2]
@@ -505,7 +505,8 @@ def AlB_first_draw(w1, start_conc, former):
             rgQ1 = gQ1 / (gQ3 + gQ2 + gQ1 + gAl5)
             rgAl5 = gAl5 / (gQ3 + gQ2 + gQ1 + gAl5)
 
-            return Q3[-1], Q4A[-1], Q2A[-1], Q1AA[-1], Q0AAA[-1], Al5[-1], Al4A[-1]
+            return (Q3[-1], Q4A[-1], Q2A[-1], Q1AA[-1],
+                    Q0AAA[-1], Al5[-1], Al4A[-1])
 
 
 def AlB_one_draw(w, start_conc, draw_size):
@@ -627,11 +628,10 @@ def AlB_draw(w1, r, mod):
     Q0Na = []
 
     Q3shinanigens = []
-    ### Draw of all Al
+    # Draw of all Al
     if Al5[-1] > 0:
-        while (Al_draw[-1] / 3) * 100 / (100 + (Al_draw[-1] / 3)) < Al5[-1] * 100 / (
-            100 - Al4A[-1]
-        ):
+        while ((Al_draw[-1] / 3) * 100 / (100 + (Al_draw[-1] / 3)) <
+                Al5[-1] * 100 / (100 - Al4A[-1])):
             gQ3 = (
                 (Q3[-1] * w[6])
                 * (1 / (r + 1))
@@ -694,7 +694,8 @@ def AlB_draw(w1, r, mod):
             rgAl5 = gAl5 / (gQ3 + gQ2 + gQ1 + gAl5)
 
             # overgang
-            if (Q4A[-1] + Q2A[-1] + 2 * Q1AA[-1] + 3 * Q0AAA[-1]) < Q3[0] * w[5]:
+            if ((Q4A[-1] + Q2A[-1] + 2 * Q1AA[-1] + 3 *
+                 Q0AAA[-1]) < Q3[0] * w[5]):
                 P = 1
             else:
                 P = 0
@@ -712,9 +713,11 @@ def AlB_draw(w1, r, mod):
             else:
                 next_Q4A = 0
 
-            if Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 + (rgQ3 * (1 - P) - rgQ2) * gQ4 > 0:
+            if (Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 +
+                    (rgQ3 * (1 - P) - rgQ2) * gQ4 > 0):
                 next_Q2A = (
-                    Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 + (rgQ3 * (1 - P) - rgQ2) * gQ4
+                    Q2A[-1] + gQ4 + gQ3 * (1 - P) - gQ2 +
+                    (rgQ3 * (1 - P) - rgQ2) * gQ4
                 )
 
             else:
@@ -754,7 +757,7 @@ def AlB_draw(w1, r, mod):
             Al5.append(next_Al5)
             Al4A.append(next_Al4A)
 
-        ## Residual Al draw ##
+        # Residual Al draw
         aa = (
             (-300 * (Al5[-1] * 100 / (100 - Al4A[-1])))
             / (-100 + (Al5[-1] * 100 / (100 - Al4A[-1])))
@@ -851,9 +854,11 @@ def AlB_draw(w1, r, mod):
         else:
             next_Q4A = 0
 
-        if Q2A[-2] + gQ4 + gQ3 * (1 - P) - gQ2 + (rgQ3 * (1 - P) - rgQ2) * gQ4 > 0:
+        if (Q2A[-2] + gQ4 + gQ3 * (1 - P) - gQ2 +
+                (rgQ3 * (1 - P) - rgQ2) * gQ4 > 0):
             next_Q2A = (
-                Q2A[-2] + gQ4 + gQ3 * (1 - P) - gQ2 + (rgQ3 * (1 - P) - rgQ2) * gQ4
+                Q2A[-2] + gQ4 + gQ3 * (1 - P) - gQ2 +
+                (rgQ3 * (1 - P) - rgQ2) * gQ4
             )
 
         else:
@@ -925,7 +930,7 @@ def AlB_draw(w1, r, mod):
         else:
             Al4 = 0
 
-        ## M2O DRAW ##
+        # M2O DRAW ##
         ipQ4 = (Q4A[-1] * iw[6]) / (
             (Q4A[-1] * iw[6])
             + (Q2A[-1] * iw[6])
@@ -979,7 +984,8 @@ def AlB_draw(w1, r, mod):
         pAl5 = (
             Alcoef
             * (Al5[-1] * w[4])
-            / (Q3[-1] * w[0] + Q4 * w[1] + Q2 * w[2] + Q1 * w[3] + Al5[-1] * w[4])
+            / (Q3[-1] * w[0] + Q4 * w[1] + Q2 * w[2]
+               + Q1 * w[3] + Al5[-1] * w[4])
         )
 
         rpQ3 = pQ3 / (pQ3 + pQ2 + pQ1 + pAl5)
@@ -1019,8 +1025,10 @@ def AlB_draw(w1, r, mod):
             irQ1AN = 0
 
         if Q0AAA[-1] + Q0AAN[-1] + Q0ANN[-1] > 0:
-            irQ0AAA = Q0AAA[-1] * 3 / (Q0AAA[-1] * 3 + Q0AAN[-1] * 2 + Q0ANN[-1])
-            irQ0AAN = Q0AAN[-1] * 2 / (Q0AAA[-1] * 3 + Q0AAN[-1] * 2 + Q0ANN[-1])
+            irQ0AAA = (Q0AAA[-1] * 3 / (Q0AAA[-1] * 3 +
+                                        Q0AAN[-1] * 2 + Q0ANN[-1]))
+            irQ0AAN = (Q0AAN[-1] * 2 / (Q0AAA[-1] * 3 +
+                                        Q0AAN[-1] * 2 + Q0ANN[-1]))
             irQ0ANN = Q0ANN[-1] / (Q0AAA[-1] * 3 + Q0AAN[-1] * 2 + Q0ANN[-1])
 
         else:
@@ -1055,9 +1063,11 @@ def AlB_draw(w1, r, mod):
         else:
             next_Q4N = 0
 
-        if Q4A[-1] - pQ4 * rQ4A - 3 * pAl5 * ipQ4 + (-3 * rpAl5 * ipQ4) * pQ4 > 0:
+        if (Q4A[-1] - pQ4 * rQ4A - 3 * pAl5 * ipQ4 +
+                (-3 * rpAl5 * ipQ4) * pQ4 > 0):
             next_Q4A = (
-                Q4A[-1] - pQ4 * rQ4A - 3 * pAl5 * ipQ4 + (-3 * rpAl5 * ipQ4) * pQ4
+                Q4A[-1] - pQ4 * rQ4A - 3 * pAl5 * ipQ4 +
+                (-3 * rpAl5 * ipQ4) * pQ4
             )
         else:
             next_Q4A = 0
@@ -1068,7 +1078,8 @@ def AlB_draw(w1, r, mod):
             - pQ2 * rQ2A
             - 3 * pAl5 * ipQ2
             + 3 * pAl5 * ipQ1 * irQ1AA
-            + (-rpQ2 * rQ2A - 3 * rpAl5 * ipQ2 + 3 * rpAl5 * ipQ1 * irQ1AA) * pQ4
+            + (-rpQ2 * rQ2A - 3 * rpAl5 * ipQ2 + 3 *
+               rpAl5 * ipQ1 * irQ1AA) * pQ4
             > 0
         ):
             next_Q2A = (
@@ -1077,7 +1088,8 @@ def AlB_draw(w1, r, mod):
                 - pQ2 * rQ2A
                 - 3 * pAl5 * ipQ2
                 + 3 * pAl5 * ipQ1 * irQ1AA
-                + (-rpQ2 * rQ2A - 3 * rpAl5 * ipQ2 + 3 * rpAl5 * ipQ1 * irQ1AA) * pQ4
+                + (-rpQ2 * rQ2A - 3 * rpAl5 * ipQ2 + 3 * rpAl5 *
+                   ipQ1 * irQ1AA) * pQ4
             )
         else:
             next_Q2A = 0
@@ -1097,7 +1109,8 @@ def AlB_draw(w1, r, mod):
                 - pQ2 * rQ2N
                 + pQ3 * (1 - P)
                 + 3 * pAl5 * ipQ1 * irQ1AN
-                + (-rpQ2 * rQ2N + rpQ3 * (1 - P) + 3 * rpAl5 * ipQ1 * irQ1AN) * pQ4
+                + (-rpQ2 * rQ2N + rpQ3 * (1 - P) + 3 * rpAl5 *
+                   ipQ1 * irQ1AN) * pQ4
             )
         else:
             next_Q2N = 0
@@ -1107,7 +1120,8 @@ def AlB_draw(w1, r, mod):
             - pQ1 * rQ1AA
             + 3 * pAl5 * ipQ0 * irQ0AAA
             - 3 * pAl5 * ipQ1 * irQ1AA
-            + (-rpQ1 * rQ1AA + 3 * rpAl5 * ipQ0 * irQ0AAA - 3 * rpAl5 * ipQ1 * irQ1AA)
+            + (-rpQ1 * rQ1AA + 3 * rpAl5 * ipQ0 * irQ0AAA - 3 *
+               rpAl5 * ipQ1 * irQ1AA)
             * pQ4
             < 0
         ):
@@ -1173,11 +1187,13 @@ def AlB_draw(w1, r, mod):
                 + pQ2 * rQ2N
                 - pQ1 * rQ1NN
                 + 3 * pAl5 * ipQ0 * irQ0ANN
-                + (rpQ2 * rQ2N - rpQ1 * rQ1NN + 3 * rpAl5 * ipQ0 * irQ0ANN) * pQ4
+                + (rpQ2 * rQ2N - rpQ1 * rQ1NN + 3 *
+                   rpAl5 * ipQ0 * irQ0ANN) * pQ4
             )
 
         if (
-            Q0AAA[-1] - 3 * pAl5 * ipQ0 * irQ0AAA + (-3 * rpAl5 * ipQ0 * irQ0AAA) * pQ4
+            Q0AAA[-1] - 3 * pAl5 * ipQ0 * irQ0AAA + (-3 * rpAl5 *
+                                                     ipQ0 * irQ0AAA) * pQ4
             < 0
         ):
             next_Q0AAA = 0
@@ -1231,13 +1247,16 @@ def AlB_draw(w1, r, mod):
             next_Al5 = 0
 
         if Al4A[-1] - 3 * pAl5 * ipAl4 + (-3 * rpAl5 * ipAl4) * pQ4 > 0:
-            next_Al4A = Al4A[-1] - 3 * pAl5 * ipAl4 + (-3 * rpAl5 * ipAl4) * pQ4
+            next_Al4A = (Al4A[-1] - 3 * pAl5 * ipAl4 +
+                         (-3 * rpAl5 * ipAl4) * pQ4)
         else:
             next_Al4A = 0
 
-        if Al4N[-1] + pAl5 + 3 * pAl5 * ipAl4 + (rpAl5 + 3 * rpAl5 * ipAl4) * pQ4 > 0:
+        if (Al4N[-1] + pAl5 + 3 * pAl5 * ipAl4 +
+                (rpAl5 + 3 * rpAl5 * ipAl4) * pQ4 > 0):
             next_Al4N = (
-                Al4N[-1] + pAl5 + 3 * pAl5 * ipAl4 + (rpAl5 + 3 * rpAl5 * ipAl4) * pQ4
+                Al4N[-1] + pAl5 + 3 * pAl5 * ipAl4 + (rpAl5 + 3 *
+                                                      rpAl5 * ipAl4) * pQ4
             )
         else:
             next_Al4N = 0
@@ -1407,7 +1426,8 @@ def AlB_SSE(w, data, frac=None, s_plt=False, s_dat=False, p=False):
                 Al5_m,
             ]
         )
-        np.savetxt(os.path.join("AlB_Structure", "Model_v_data.csv"), m_data_plt_kval)
+        np.savetxt(os.path.join("AlB_Structure",
+                                "Model_v_data.csv"), m_data_plt_kval)
 
     if p is False:
 

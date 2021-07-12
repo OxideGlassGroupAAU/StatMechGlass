@@ -6,7 +6,6 @@ Created on Tue May 29 10:24:49 2018
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
 import scipy.optimize
 import math
 import os
@@ -21,13 +20,14 @@ def B_onedraw(w, start_conc, draw_size, back=False):
     B0_s = start_conc[4]
 
     if (
-        (B4_s + B2_s + B1_s * 2 + B0_s * 3) / (B3_s + B4_s + B2_s + B1_s * +B0_s)
+        (B4_s + B2_s + B1_s * 2 + B0_s * 3) /
+        (B3_s + B4_s + B2_s + B1_s * +B0_s)
     ) < 0.428:
         B4_B2 = 1
     else:
         B4_B2 = 0
 
-    if back == True:
+    if back:
 
         wB0 = 1 / w[3]
         wB1 = 1 / w[2]
@@ -39,18 +39,11 @@ def B_onedraw(w, start_conc, draw_size, back=False):
         p_B2 = B2_s * wB2 / (B0_s * wB0 + B1_s * wB1 + B2_s * wB2 + B4_s * wB4)
         p_B4 = B4_s * wB4 / (B0_s * wB0 + B1_s * wB1 + B2_s * wB2 + B4_s * wB4)
 
-        # sum_p = p_B0+p_B4+p_B2+p_B1
-
         p_B0 = p_B0 * draw_size
         p_B1 = p_B1 * draw_size
         p_B2 = p_B2 * draw_size
         p_B4 = p_B4 * draw_size
 
-        # sum_p2 = p_B0+p_B4+p_B2+p_B1
-
-        # print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
-
-        # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p_B3, p_B4, p_B2, p_B1))
         # Contribution to N4 from B
         if p_B0 == 0 and p_B1 == 0 and p_B4 == 0:
             CB0 = 0
@@ -61,8 +54,6 @@ def B_onedraw(w, start_conc, draw_size, back=False):
             CB1 = p_B1 / (p_B0 + p_B4 + p_B1)
             CB4 = p_B4 / (p_B0 + p_B4 + p_B1)
 
-        # print("CB0, CB1, CB4:{}, {}, {}".format(CB0,CB1,CB4))
-
         # Evolution of borate Qn units
         if B0_s + p_B0 + (p_B2 * B4_B2 * CB0) < 0:
             next_B0 = 0
@@ -70,10 +61,12 @@ def B_onedraw(w, start_conc, draw_size, back=False):
         else:
             next_B0 = B0_s + p_B0 + (p_B2 * B4_B2 * CB0)
 
-        if B1_s - p_B0 + p_B1 + (CB1 * B4_B2 * p_B2) - (CB0 * B4_B2 * p_B2) < 0:
+        if (B1_s - p_B0 + p_B1 + (CB1 * B4_B2 * p_B2) -
+                (CB0 * B4_B2 * p_B2) < 0):
             next_B1 = 0
         else:
-            next_B1 = B1_s - p_B0 + p_B1 + (CB1 * B4_B2 * p_B2) - (CB0 * B4_B2 * p_B2)
+            next_B1 = (B1_s - p_B0 + p_B1 + (CB1 * B4_B2 * p_B2) -
+                       (CB0 * B4_B2 * p_B2))
 
         if B2_s - p_B1 + p_B2 - (CB1 * B4_B2 * p_B2) < 0:
             next_B2 = 0
@@ -90,33 +83,23 @@ def B_onedraw(w, start_conc, draw_size, back=False):
             next_B3 = 0
         else:
             next_B3 = B3_s - p_B4 - (p_B2 * (1 - B4_B2)) - (CB4 * B4_B2 * p_B2)
-        # print("p_B4: {}".format(p_B4))
-        # print("other two: {}, {}".format((p_B2*B4_B2), (CB4*B4_B2*p_B2)))
-        # print("p_B2: {}".format(p_B2))
-        # print("B3, B4, B2, B1 and B0 change: {}, {}, {}, {}, {}, and sum: {}".format(B3_s-next_B3, B4_s-next_B4, B2_s-next_B2, B1_s-next_B1, B0_s-next_B0, sum([B3_s-next_B3, B4_s-next_B4, B2_s-next_B2, B1_s-next_B1, B0_s-next_B0])))
-        # sum_change = abs(B3_s - next_B3) + abs(B1_s - next_B1) + abs(B2_s - next_B2)
-
-    # print("Next B3, B4, B2, B1, og B0: {},{},{},{} og {}".format(next_B3, next_B4, next_B2, next_B1, next_B0))
-    # print("Sum change: {} Draw size: {} \n".format(sum_change, draw_size))
 
     else:
 
-        p_B3 = B3_s * w[0] / (B3_s * w[0] + B4_s * w[1] + B2_s * w[2] + B1_s * w[3])
-        p_B4 = B4_s * w[1] / (B3_s * w[0] + B4_s * w[1] + B2_s * w[2] + B1_s * w[3])
-        p_B2 = B2_s * w[2] / (B3_s * w[0] + B4_s * w[1] + B2_s * w[2] + B1_s * w[3])
-        p_B1 = B1_s * w[3] / (B3_s * w[0] + B4_s * w[1] + B2_s * w[2] + B1_s * w[3])
-
-        # sum_p = p_B3+p_B4+p_B2+p_B1
+        p_B3 = B3_s * w[0] / (B3_s * w[0] + B4_s * w[1] +
+                              B2_s * w[2] + B1_s * w[3])
+        p_B4 = B4_s * w[1] / (B3_s * w[0] + B4_s * w[1] +
+                              B2_s * w[2] + B1_s * w[3])
+        p_B2 = B2_s * w[2] / (B3_s * w[0] + B4_s * w[1] +
+                              B2_s * w[2] + B1_s * w[3])
+        p_B1 = B1_s * w[3] / (B3_s * w[0] + B4_s * w[1] +
+                              B2_s * w[2] + B1_s * w[3])
 
         p_B3 = p_B3 * draw_size
         p_B4 = p_B4 * draw_size
         p_B2 = p_B2 * draw_size
         p_B1 = p_B1 * draw_size
 
-        # sum_p2 = p_B3+p_B4+p_B2+p_B1
-
-        # print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
-        # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p_B3, p_B4, p_B2, p_B1))
         # Contribution to N4 from B
         CB3 = p_B3 / (p_B3 + p_B2 + p_B1)
         CB2 = p_B2 / (p_B3 + p_B2 + p_B1)
@@ -133,11 +116,13 @@ def B_onedraw(w, start_conc, draw_size, back=False):
         else:
             next_B4 = B4_s + (p_B3 * B4_B2) - p_B4
 
-        if B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2) < 0:
+        if (B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4 -
+                p_B2 - (p_B4 * CB2) < 0):
             next_B2 = 0
         else:
             next_B2 = (
-                B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2)
+                B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) +
+                p_B4 - p_B2 - (p_B4 * CB2)
             )
 
         if B1_s + p_B2 - p_B1 + (p_B4 * CB2) - (p_B4 * CB1) < 0:
@@ -149,11 +134,6 @@ def B_onedraw(w, start_conc, draw_size, back=False):
             next_B0 = 0
         else:
             next_B0 = B0_s + p_B1 + (p_B4 * CB1)
-
-        # sum_change = abs(B3_s - next_B3) + abs(B1_s - next_B1) + abs(B0_s - next_B0)
-
-    # print("Next B3, B4, B2, B1, og B0: {},{},{},{} og {}".format(next_B3, next_B4, next_B2, next_B1, next_B0))
-    # print("Sum change: {} Draw size: {} \n".format(sum_change, draw_size))
 
     return next_B3, next_B4, next_B2, next_B1, next_B0
 
@@ -169,7 +149,8 @@ def B_back_onedraw(w, start_conc, draw_size):
     sum_S = sum(start_conc)
 
     if (
-        (B4_s + B2_s + B1_s * 2 + B0_s * 3) / (B3_s + B4_s + B2_s + B1_s * +B0_s)
+        (B4_s + B2_s + B1_s * 2 + B0_s * 3) / (B3_s + B4_s +
+                                               B2_s + B1_s * +B0_s)
     ) < 0.428:
         B4_B2 = 1
     else:
@@ -181,16 +162,20 @@ def B_back_onedraw(w, start_conc, draw_size):
     B1_res = sum_S - B1_s
 
     p_B3 = (
-        B3_res * w[0] / (B3_res * w[0] + B4_res * w[1] + B2_res * w[2] + B1_res * w[3])
+        B3_res * w[0] / (B3_res * w[0] + B4_res * w[1] + B2_res *
+                         w[2] + B1_res * w[3])
     )
     p_B4 = (
-        B4_res * w[1] / (B3_res * w[0] + B4_res * w[1] + B2_res * w[2] + B1_res * w[3])
+        B4_res * w[1] / (B3_res * w[0] + B4_res * w[1] + B2_res *
+                         w[2] + B1_res * w[3])
     )
     p_B2 = (
-        B2_res * w[2] / (B3_res * w[0] + B4_res * w[1] + B2_res * w[2] + B1_res * w[3])
+        B2_res * w[2] / (B3_res * w[0] + B4_res * w[1] + B2_res *
+                         w[2] + B1_res * w[3])
     )
     p_B1 = (
-        B1_res * w[3] / (B3_res * w[0] + B4_res * w[1] + B2_res * w[2] + B1_res * w[3])
+        B1_res * w[3] / (B3_res * w[0] + B4_res * w[1] + B2_res *
+                         w[2] + B1_res * w[3])
     )
 
     p_B3 = p_B3 * draw_size
@@ -198,7 +183,6 @@ def B_back_onedraw(w, start_conc, draw_size):
     p_B2 = p_B2 * draw_size
     p_B1 = p_B1 * draw_size
 
-    # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p_B3, p_B4, p_B2, p_B1))
     # Contribution to N4 from B
     CB3 = p_B3 / (p_B3 + p_B2 + p_B1)
     CB2 = p_B2 / (p_B3 + p_B2 + p_B1)
@@ -215,11 +199,13 @@ def B_back_onedraw(w, start_conc, draw_size):
     else:
         next_B4 = B4_s + (p_B3 * B4_B2) - p_B4
 
-    if B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2) < 0:
+    if (B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) +
+            p_B4 - p_B2 - (p_B4 * CB2) < 0):
         next_B2 = 0
     else:
         next_B2 = (
-            B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2)
+            B2_s + (p_B3 * (1 - B4_B2)) + (p_B4 * CB3) + p_B4
+            - p_B2 - (p_B4 * CB2)
         )
 
     if B1_s + p_B2 - p_B1 + (p_B4 * CB2) - (p_B4 * CB1) < 0:
@@ -232,63 +218,7 @@ def B_back_onedraw(w, start_conc, draw_size):
     else:
         next_B0 = B0_s + p_B1 + (p_B4 * CB1)
 
-    # print("Next B3, B4, B2, B1, og B0: {},{},{},{} og {}".format(next_B3, next_B4, next_B2, next_B1, next_B0))
-
     return next_B3, next_B4, next_B2, next_B1, next_B0
-
-
-## With the B4_B2 parameter
-# def B_onedraw(w, start_conc, draw_size, B4_B2):
-
-#     B3_s = start_conc[0]
-#     B4_s = start_conc[1]
-#     B2_s = start_conc[2]
-#     B1_s = start_conc[3]
-#     B0_s = start_conc[4]
-
-#     p_B3 = B3_s*w[0] / (B3_s*w[0] + B4_s*w[1] + B2_s*w[2] + B1_s*w[3])
-#     p_B4 = B4_s*w[1] / (B3_s*w[0] + B4_s*w[1] + B2_s*w[2] + B1_s*w[3])
-#     p_B2 = B2_s*w[2] / (B3_s*w[0] + B4_s*w[1] + B2_s*w[2] + B1_s*w[3])
-#     p_B1 = B1_s*w[3] / (B3_s*w[0] + B4_s*w[1] + B2_s*w[2] + B1_s*w[3])
-
-#     p_B3 = p_B3*draw_size
-#     p_B4 = p_B4*draw_size
-#     p_B2 = p_B2*draw_size
-#     p_B1 = p_B1*draw_size
-
-#         #Contribution to N4 from B
-#     CB3 = p_B3 / (p_B3 + p_B2 + p_B1)
-#     CB2 = p_B2 / (p_B3 + p_B2 + p_B1)
-#     CB1 = p_B1 / (p_B3 + p_B2 + p_B1)
-
-#     # Evolution of borate Qn units
-#     if B3_s - p_B3 - (p_B4 * CB3) < 0:
-#         next_B3 = 0
-#     else:
-#         next_B3 = B3_s - p_B3 - (p_B4 * CB3)
-
-#     if B4_s + (p_B3*B4_B2) - p_B4 < 0:
-#         next_B4 = 0
-#     else:
-#         next_B4 = B4_s + (p_B3*B4_B2) - p_B4
-
-#     if B2_s + (p_B3*(1-B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2) < 0:
-#         next_B2 = 0
-#     else:
-#         next_B2 = B2_s + (p_B3*(1-B4_B2)) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2)
-
-#     if B1_s + p_B2 - p_B1 + (p_B4 * CB2) - (p_B4 * CB1) < 0:
-#         next_B1 = 0
-#     else:
-#         next_B1 = B1_s + p_B2 - p_B1 + (p_B4 * CB2) - (p_B4 * CB1)
-
-#     if B0_s + p_B1 + (p_B4 * CB1 ) < 0:
-#         next_B0 = 0
-#     else:
-#         next_B0 = B0_s + p_B1 + (p_B4 * CB1)
-
-
-#     return next_B3, next_B4, next_B2, next_B1, next_B0
 
 
 def B_draw(w1, frac=None, s_plt=False, s_dat=False, p=False):
@@ -301,17 +231,13 @@ def B_draw(w1, frac=None, s_plt=False, s_dat=False, p=False):
     for i in draw_ar:
         next_mod = draw_ar[i] / (100 + (draw_ar[i])) * 100
         M2O.append(next_mod)
-        # M1 = np.array((draw_ar/(100+draw_ar))*100)
-
-    #                w1 = [1, 0.01, 0.001]
 
     M2O.append(75)
 
     M2Onp = np.array(M2O)
 
-    # Is B3 transformed to B4 or B2?
-
-    Tg = np.array(0.0014 * M2Onp ** 3 - 0.3315 * M2Onp ** 2 + 16.459 * M2Onp + 508.94)
+    Tg = np.array(0.0014 * M2Onp ** 3 - 0.3315 * M2Onp **
+                  2 + 16.459 * M2Onp + 508.94)
 
     H = np.array([0, abs(w1[1]), abs(w1[2]), abs(w1[3])])
 
@@ -423,7 +349,8 @@ def B_draw(w1, frac=None, s_plt=False, s_dat=False, p=False):
             next_B4 = B4[-1] + (p_B3 * B4_B2[i]) - p_B4
 
         if (
-            B2[-1] + (p_B3 * (1 - B4_B2[i])) + (p_B4 * CB3) + p_B4 - p_B2 - (p_B4 * CB2)
+            B2[-1] + (p_B3 * (1 - B4_B2[i])) + (p_B4 * CB3) +
+            p_B4 - p_B2 - (p_B4 * CB2)
             < 0
         ):
             next_B2 = 0
@@ -453,21 +380,13 @@ def B_draw(w1, frac=None, s_plt=False, s_dat=False, p=False):
         B1.append(next_B1)
         B0.append(next_B0)
 
-    # Vi laver lister, som indeholer data fra modellen, som svarer til de punkter,
-    # hvor vi har experimentiel data
-
     return M2O, B3, B4, B2, B1, B0
 
 
 def B_SSE(w1, data, frac=None, s_plt=False, s_dat=False, p=False):
 
     mod_data = data[0]
-    # Q3_data = []
     Q4_data = data[1]
-
-    # Vi laver lister, som indeholer data fra modellen, som svarer til de punkter,
-    # hvor vi har experimentiel data
-
     M2O, B3, B4, B2, B1, B0 = B_draw(w1)
 
     if s_plt is False and p is True:
@@ -492,7 +411,7 @@ def B_SSE(w1, data, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 75, 0, 100])
         plt.legend(["$B^3$", "$B^4$", "$B^2$", "$B^1$", "$B^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Bn species concentration")
+        plt.ylabel("Bn species concentration")
         plt.title("Bn distribution")
         plt.show()
 
@@ -520,7 +439,7 @@ def B_SSE(w1, data, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 75, 0, 100])
         plt.legend(["$B^3$", "$B^4$", "$B^2$", "$B^1$", "$B^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Bn species concentration")
+        plt.ylabel("Bn species concentration")
         plt.title("Bn distribution")
         plt.savefig(os.path.join("B2O3_Structure", "Qn_distribution.png"))
         plt.show()

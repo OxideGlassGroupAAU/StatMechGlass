@@ -10,30 +10,6 @@ import math
 import os
 import scipy.optimize
 
-# folders = ["Silicate_plots", "Silicate_data", "Silicate_parameters"]
-
-# for des in range(len(folders)):
-#     if not os.path.exists(folders[des]):
-#         os.mkdir(folders[des])
-
-# fil = "Na_Si_Qn"
-
-# class DataLoader(object):
-#    def __init__(self, file_name, col_nr):
-#        self.file_name = file_name
-#        self.col_nr = col_nr
-
-
-# mod_data = data_load(fil, 0)
-# Q4_data = data_load(fil, 1)
-# Q3_data = data_load(fil, 2)
-# Q2_data = data_load(fil, 3)
-# Q1_data = data_load(fil, 4)
-# Q0_data = data_load(fil, 5)
-
-
-# HNaSi, HKSi, HLiSi = [0, 14.1, 22.9, 27.1], [0, 18.8, 35.2, 45.8], [0, 8.4, 16.4, 22.1]
-
 
 def Si_onedraw(w, start_conc, draw_size, back=False):
 
@@ -43,29 +19,26 @@ def Si_onedraw(w, start_conc, draw_size, back=False):
     Q1_s = start_conc[3]
     Q0_s = start_conc[4]
 
-    if back == True:
+    if back:
 
         wQ0 = 1 / w[3]
         wQ1 = 1 / w[2]
         wQ2 = 1 / w[1]
         wQ3 = 1 / w[0]
 
-        p0 = Q0_s * wQ0 / ((Q0_s * wQ0) + (Q1_s * wQ1) + (Q2_s * wQ2) + (Q3_s * wQ3))
-        p1 = Q1_s * wQ1 / ((Q0_s * wQ0) + (Q1_s * wQ1) + (Q2_s * wQ2) + (Q3_s * wQ3))
-        p2 = Q2_s * wQ2 / ((Q0_s * wQ0) + (Q1_s * wQ1) + (Q2_s * wQ2) + (Q3_s * wQ3))
-        p3 = Q3_s * wQ3 / ((Q0_s * wQ0) + (Q1_s * wQ1) + (Q2_s * wQ2) + (Q3_s * wQ3))
-        sum_p = p0 + p3 + p2 + p1
+        p0 = Q0_s * wQ0 / ((Q0_s * wQ0) + (Q1_s * wQ1) +
+                           (Q2_s * wQ2) + (Q3_s * wQ3))
+        p1 = Q1_s * wQ1 / ((Q0_s * wQ0) + (Q1_s * wQ1) +
+                           (Q2_s * wQ2) + (Q3_s * wQ3))
+        p2 = Q2_s * wQ2 / ((Q0_s * wQ0) + (Q1_s * wQ1) +
+                           (Q2_s * wQ2) + (Q3_s * wQ3))
+        p3 = Q3_s * wQ3 / ((Q0_s * wQ0) + (Q1_s * wQ1) +
+                           (Q2_s * wQ2) + (Q3_s * wQ3))
 
         p0 = p0 * draw_size
         p3 = p3 * draw_size
         p2 = p2 * draw_size
         p1 = p1 * draw_size
-
-        sum_p2 = p0 + p3 + p2 + p1
-
-        # print("Sum p before drawzize: {} and after: {}".format(sum_p,sum_p2))
-
-        # print("Next pB3, pB4, pB2 og pB1: {},{},{} og {}".format(p0, p1, p2, p3))
 
         if Q0_s + p0 < 0:
             next_Q0 = 0
@@ -95,8 +68,6 @@ def Si_onedraw(w, start_conc, draw_size, back=False):
             next_Q4 = 0
         else:
             next_Q4 = Q4_s - p3
-
-        # print("Q4, Q3, Q2, Q1 and Q0 change: {}, {}, {}, {}, {}, and sum: {}".format(Q4_s-next_Q4, Q3_s-next_Q3, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0, sum([Q3_s-next_Q3, Q4_s-next_Q4, Q2_s-next_Q2, Q1_s-next_Q1, Q0_s-next_Q0])))
 
     else:
 
@@ -167,11 +138,11 @@ def Si_draw(H1, tg, frac=None, s_plt=False, s_dat=False, p=False):
        where H1 is the necessary enthalpic contribution in a bunary glass.
        Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
 
-       H2 may be set to enthalpy values for a second modifier, where frac defines
-       the fraction of the first to second modifier (0-1).
+       H2 may be set to enthalpy values for a second modifier, where frac
+       defines the fraction of the first to second modifier (0-1).
 
-       s_plt and s_dat may be set to "True" to save the plot and data as png and
-       csv files
+       s_plt and s_dat may be set to "True" to save the plot and data as png
+       and csv files
 
 
        Example:
@@ -512,7 +483,7 @@ def Si_draw(H1, tg, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 67, 0, 100])
         plt.legend(["$Q^4$", "$Q^3$", "$Q^2$", "$Q^1$", "$Q^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Qn species concentration")
+        plt.ylabel("Qn species concentration")
         plt.title("Qn distribution")
         plt.show()
 
@@ -539,7 +510,7 @@ def Si_draw(H1, tg, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 67, 0, 100])
         plt.legend(["$Q^4$", "$Q^3$", "$Q^2$", "$Q^1$", "$Q^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"Qn species concentration")
+        plt.ylabel("Qn species concentration")
         plt.title("Qn distribution")
         plt.savefig(os.path.join("SiO2_Structure", "Qn_distribution.png"))
         plt.show()
@@ -567,11 +538,11 @@ def Si_SSE(H1, data, tg, frac=None, s_plt=False, s_dat=False, p=False):
        where H1 is the necessary enthalpic contribution in a bunary glass.
        Examples are provided: "module.HNaSi", "module.HKSi", "module.HLiSi".
 
-       H2 may be set to enthalpy values for a second modifier, where frac defines
-       the fraction of the first to second modifier (0-1).
+       H2 may be set to enthalpy values for a second modifier, where frac
+       defines the fraction of the first to second modifier (0-1).
 
-       s_plt and s_dat may be set to "True" to save the plot and data as png and
-       csv files
+       s_plt and s_dat may be set to "True" to save the plot and data as png
+       and csv files
 
 
        Example:
@@ -626,7 +597,7 @@ def Si_SSE(H1, data, tg, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 67, 0, 100])
         plt.legend(["$Si^4$", "$Si^3$", "$Si^2$", "$Si^1$", "$Si^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"$Si^n$ species concentration")
+        plt.ylabel("$Si^n$ species concentration")
         plt.title("$Si^n$ distribution")
         plt.show()
 
@@ -670,7 +641,7 @@ def Si_SSE(H1, data, tg, frac=None, s_plt=False, s_dat=False, p=False):
         plt.axis([0, 67, 0, 100])
         plt.legend(["$Si^4$", "$Si^3$", "$Si^2$", "$Si^1$", "$Si^0$"])
         plt.xlabel("Modifier mol %")
-        plt.ylabel(f"$Si^n$ species concentration")
+        plt.ylabel("$Si^n$ species concentration")
         plt.title("$Si^n$ distribution")
         plt.savefig(os.path.join("SiO2_Structure", "Qn_distribution.png"))
         plt.show()
