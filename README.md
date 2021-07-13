@@ -36,9 +36,7 @@ StatMechGlass
   │   ├── stat_mech_borate.py  
   │   ├── stat_mech_phosphate.py  
   │   └── stat_mech_silicate.py  
-  ├── `__init__`.py  
-  ├── LICENCE  
-  ├── README.md  
+  ├── `__init__`.py   
   ├── stat_mech_glass.py  
 
 Here, experimentally obtained data should be placed in the /Data directory.
@@ -53,6 +51,12 @@ Alternatively, place the package in the working directory and import it with
 
 ```python
 import StatMechGlass.stat_mech_glass as smg
+```
+or import with pip:
+
+```python
+pip install StatMechGlass
+from StatMechGlass import stat_mech_glass as smg
 ```
 
 The four main functions:
