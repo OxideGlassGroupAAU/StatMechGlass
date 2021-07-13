@@ -244,7 +244,8 @@ Na<sub>2</sub>O%,B<sub>2</sub>O<sub>3</sub>%,SiO<sub>2</sub>%,T<sub>g</sub>,B<su
 # 5. Final remarks
 
 Thank you for using the software!  
-Upon building on the software or enthalpy database, you are encouraged to make a pull request.  
+Upon building on the software or enthalpy database, you are encouraged to make a pull request by first making a seperate branch. Make sure to describe the change in detain and how you tested the change.
+Possible changes could include: adding new data or parameters to the database, building upon the modules to include more glass families, or general bug fixes/improvements.
 
 Thanks,  
 Mikkel Bødker, msb@bio.aau.dk  
