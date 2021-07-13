@@ -1,6 +1,3 @@
 SMG ToDoList:
   - Make CITATION.txt
 
-Paper
-  - Correct
-  - Submit
