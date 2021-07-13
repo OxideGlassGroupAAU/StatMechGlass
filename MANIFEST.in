@@ -1,0 +1,4 @@
+include *.csv
+recursive-include src/StatMechGlass/Data/*
+include src/StatMechGlass/Data/*/*.csv
+include src/StatMechGlass/Parameters/*/*.csv
