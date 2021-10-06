@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='StatMechGlass',
-    version='0.1.3',
+    version='0.1.5',
     author='Mikkel Bødker',
     author_email='mikkelboedker@gmail.com',
     description='Calculates structure of oxide glasses using statistical mechanics',
@@ -16,7 +16,7 @@ setuptools.setup(
         'numpy>=1.16',
         'scipy>=1.2',
         'matplotlib>=3.4.2',
-        'sklearn>=0.0',
+        'sklearn',
     ],
     keywords='glass, statistical mechanics',
     classifiers=[

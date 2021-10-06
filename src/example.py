@@ -9,6 +9,7 @@ Created on Thu Oct 29 18:47:26 2020
 # src should be replaced with "StatMechGlass" when installed with pip
 from StatMechGlass import stat_mech_glass as smg
 
+
 # Na.csv and Na_Tg.csv are located in Data/SiO2. This command will build
 # and save the Na-Si interaction parameters
 smg.smg_binary_par("Si", "Na", it=10)

@@ -1,3 +1,26 @@
+Metadata-Version: 2.1
+Name: StatMechGlass
+Version: 0.1.5
+Summary: Calculates structure of oxide glasses using statistical mechanics
+Home-page: https://github.com/OxideGlassGroupAAU/StatMechGlass
+Author: Mikkel Bødker
+Author-email: mikkelboedker@gmail.com
+License: UNKNOWN
+Keywords: glass,statistical mechanics
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Topic :: Scientific/Engineering
+Classifier: Intended Audience :: Science/Research
+Classifier: Environment :: Console
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENCE
+
 # 1. Introduction
 
 This python package uses statistical mechanics-based modeling
@@ -254,3 +277,5 @@ Possible changes could include: adding new data or parameters to the database, b
 Thanks,  
 Mikkel Bødker, msb@bio.aau.dk  
 Oxide Glass Chemistry Group, Department of Chemistry and Bioscience, Aalborg University, Denmark
+
+

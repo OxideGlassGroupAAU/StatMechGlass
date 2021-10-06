@@ -23,9 +23,10 @@ else:
     from . import stat_mech_module as smm
 
 
-def data_load(path, file_name, col_nr):
+def _data_load(path, file_name, col_nr):
     """
-    This function should not be called manually
+    This function will load the data required by the other functions.
+    It takes a path, file name and the required column as inputs
     """
     current_dir = os.getcwd()
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -40,9 +41,10 @@ def data_load(path, file_name, col_nr):
     return data_col
 
 
-def form_lookup(former, modifier=None):
+def _form_lookup(former, modifier=None, path_in=None):
     """
-    This function should not be called manually
+    This function is used to lookup the correct terms and formers when
+    running the functions
     """
     fil = modifier
     dat = 0
@@ -55,14 +57,24 @@ def form_lookup(former, modifier=None):
             smm.stat_mech_silicate.Si_onedraw,
         )
         if modifier:
-            dat = (
-                data_load(path2, fil, 0),
-                data_load(path2, fil, 1),
-                data_load(path2, fil, 2),
-                data_load(path2, fil, 3),
-                data_load(path2, fil, 4),
-                data_load(path2, fil, 5),
-            )
+            if path_in:
+                dat = (
+                    _data_load(path_in, fil, 0),
+                    _data_load(path_in, fil, 1),
+                    _data_load(path_in, fil, 2),
+                    _data_load(path_in, fil, 3),
+                    _data_load(path_in, fil, 4),
+                    _data_load(path_in, fil, 5),
+                )
+            else:
+                dat = (
+                    _data_load(path2, fil, 0),
+                    _data_load(path2, fil, 1),
+                    _data_load(path2, fil, 2),
+                    _data_load(path2, fil, 3),
+                    _data_load(path2, fil, 4),
+                    _data_load(path2, fil, 5),
+                )
         s_conc = {"Si4": 100, "Si3": 0, "Si2": 0, "Si1": 0, "Si0": 0}
         weight = ["wSi4", "wSi3", "wSi2", "wSi1"]
         atom_frac = 2
@@ -78,7 +90,10 @@ def form_lookup(former, modifier=None):
             smm.stat_mech_borate.B_onedraw,
         )
         if modifier:
-            dat = (data_load(path2, fil, 0), data_load(path2, fil, 1))
+            if path_in:
+                dat = (_data_load(path_in, fil, 0), _data_load(path_in, fil, 1))
+            else:
+                dat = (_data_load(path2, fil, 0), _data_load(path2, fil, 1))
         s_conc = {"B3": 100, "B4": 0, "B2": 0, "B1": 0, "B0": 0}
         weight = ["wb3", "wb4", "wb2", "wb1"]
         atom_frac = 1
@@ -95,7 +110,10 @@ def form_lookup(former, modifier=None):
             smm.stat_mech_aluminoborate.AlB_first_draw,
         )
         if modifier:
-            dat = (data_load(path2, fil, 0), data_load(path2, fil, 1))
+            if path_in:
+                dat = (_data_load(path_in, fil, 0), _data_load(path_in, fil, 1))
+            else:
+                dat = (_data_load(path2, fil, 0), _data_load(path2, fil, 1))
         s_conc = {"Al6": 100, "Al4": 0}
         weight = ["wal6"]
         atom_frac = 1
@@ -110,13 +128,22 @@ def form_lookup(former, modifier=None):
             smm.stat_mech_phosphate.P_onedraw,
         )
         if modifier:
-            dat = (
-                data_load(path2, fil, 0),
-                data_load(path2, fil, 1),
-                data_load(path2, fil, 2),
-                data_load(path2, fil, 3),
-                data_load(path2, fil, 4),
-            )
+            if path_in:
+                dat = (
+                    _data_load(path_in, fil, 0),
+                    _data_load(path_in, fil, 1),
+                    _data_load(path_in, fil, 2),
+                    _data_load(path_in, fil, 3),
+                    _data_load(path_in, fil, 4),
+                )
+            else:
+                dat = (
+                    _data_load(path2, fil, 0),
+                    _data_load(path2, fil, 1),
+                    _data_load(path2, fil, 2),
+                    _data_load(path2, fil, 3),
+                    _data_load(path2, fil, 4),
+                )
         s_conc = {"P3": 100, "P2": 0, "P1": 0, "P0": 0}
         weight = ["wp3", "wp2", "wp1"]
         atom_frac = 1
@@ -130,17 +157,31 @@ def form_lookup(former, modifier=None):
             smm.stat_mech_aluminoborate.AlB_SSE,
         )
         if modifier:
-            dat = (
-                data_load(path, fil, 0),
-                data_load(path, fil, 3),
-                data_load(path, fil, 4),
-                data_load(path, fil, 5),
-                data_load(path, fil, 6),
-                data_load(path, fil, 7),
-                data_load(path, fil, 8),
-                data_load(path, fil, 9),
-                data_load(path, fil, 10),
-            )
+            if path_in:
+                dat = (
+                    _data_load(path_in, fil, 0),
+                    _data_load(path_in, fil, 3),
+                    _data_load(path_in, fil, 4),
+                    _data_load(path_in, fil, 5),
+                    _data_load(path_in, fil, 6),
+                    _data_load(path_in, fil, 7),
+                    _data_load(path_in, fil, 8),
+                    _data_load(path_in, fil, 9),
+                    _data_load(path_in, fil, 10),
+                )
+            else:
+                
+                dat = (
+                    _data_load(path, fil, 0),
+                    _data_load(path, fil, 3),
+                    _data_load(path, fil, 4),
+                    _data_load(path, fil, 5),
+                    _data_load(path, fil, 6),
+                    _data_load(path, fil, 7),
+                    _data_load(path, fil, 8),
+                    _data_load(path, fil, 9),
+                    _data_load(path, fil, 10),
+                )
         first_draw = None
 
     return (
@@ -158,9 +199,10 @@ def form_lookup(former, modifier=None):
     )
 
 
-def tg_fit(tg_data, mod):
+def _tg_fit(tg_data, mod):
     """
-    This function should not be called manually
+    This function takes Tg and modifier data to fit the Tg values as 
+    a function of modifier concentration.
     """
     x = np.array(tg_data[0])
     x = x.reshape(-1, 1)
@@ -225,7 +267,7 @@ def smg_structure(val, tg, p=None):
     m_conc = []
 
     for i in range(len(formers_s)):
-        a_frac = form_lookup(formers_s[i])[6]
+        a_frac = _form_lookup(formers_s[i])[6]
         try:
             f_conc.append(val[formers_s[i]] / a_frac)
         except:
@@ -235,7 +277,7 @@ def smg_structure(val, tg, p=None):
 
     for i in range(len(intermediates_s)):
         try:
-            a_frac = form_lookup(intermediates_s[i])[6]
+            a_frac = _form_lookup(intermediates_s[i])[6]
             i_conc.append(val[intermediates_s[i]] / a_frac)
         except:
             pass
@@ -246,7 +288,7 @@ def smg_structure(val, tg, p=None):
             "intermediates is higher than the concentration of formers"
             )
     for i in range(len(intermediates_s)):
-        a_frac = form_lookup(intermediates_s[i])[6]
+        a_frac = _form_lookup(intermediates_s[i])[6]
         try:
             f_conc.append(val[intermediates_s[i]] / a_frac)
         except:
@@ -272,12 +314,12 @@ def smg_structure(val, tg, p=None):
     # Starting concentrations:
     structures = {}
     for i in range(len(formers)):
-        start_conc = form_lookup(formers[i])[4]
+        start_conc = _form_lookup(formers[i])[4]
         for i2 in start_conc:
             structures[i2] = start_conc[i2] * f_conc[i] / sum(f_conc)
 
     for i in range(len(intermediates)):
-        start_conc = form_lookup(intermediates[i])[4]
+        start_conc = _form_lookup(intermediates[i])[4]
         for i2 in start_conc:
             structures[i2] = (
                             start_conc[i2] *
@@ -292,12 +334,12 @@ def smg_structure(val, tg, p=None):
         H_int = []
 
         for i in formers:
-            w_data = list(data_load(form_lookup(i)[0], intermediates[0], 0))
+            w_data = list(_data_load(_form_lookup(i)[0], intermediates[0], 0))
             for i2 in range(len(w_data)):
                 H_int.append(w_data[i2])
 
         for i in intermediates:
-            w_data = list(data_load(form_lookup(i)[0], intermediates[0], 0))
+            w_data = list(_data_load(_form_lookup(i)[0], intermediates[0], 0))
             for i2 in range(len(w_data)):
                 H_int.append(w_data[i2])
 
@@ -306,7 +348,7 @@ def smg_structure(val, tg, p=None):
         for i in range(len(H_int)):
             w_int.append(math.exp(-H_int[i] / (tg * 0.008314)))
 
-        structure_alb = form_lookup(intermediates[0])[10](
+        structure_alb = _form_lookup(intermediates[0])[10](
             w_int, structure_val, formers[0]
         )
 
@@ -340,14 +382,14 @@ def smg_structure(val, tg, p=None):
                         else:
                             f_p = formers[0] + formers[i2]
                             f_path = "Parameters/MF"
-                            f = data_load(f_path, f_p, 0)[0]
-                    path = form_lookup(formers[i2])[0]
-                    w_names = form_lookup(formers[i2])[5]
-                    Hi = data_load(path, modifiers[i], 0)
+                            f = _data_load(f_path, f_p, 0)[0]
+                    path = _form_lookup(formers[i2])[0]
+                    w_names = _form_lookup(formers[i2])[5]
+                    Hi = _data_load(path, modifiers[i], 0)
 
                     m_weights[w_names[0]] = 1 * f
 
-                    struc_keys = list(form_lookup(formers[i2])[4].keys())
+                    struc_keys = list(_form_lookup(formers[i2])[4].keys())
                     m_draws.append(m_weights[w_names[0]] *
                                    structures[struc_keys[0]])
 
@@ -386,17 +428,17 @@ def smg_structure(val, tg, p=None):
                 draws_norm.append((draws[i] / sum(draws)))
 
             for i in range(len(formers)):
-                step_conc_ind = list(form_lookup(formers[i])[4].keys())
+                step_conc_ind = list(_form_lookup(formers[i])[4].keys())
                 step_conc = []
 
                 for i2 in step_conc_ind:
                     step_conc.append(structures[i2])
-                step_w_ind = form_lookup(formers[i])[5]
+                step_w_ind = _form_lookup(formers[i])[5]
                 step_w = []
                 for i2 in step_w_ind:
                     step_w.append(weights[i2])
 
-                onedraw_fun = form_lookup(formers[i])[3]
+                onedraw_fun = _form_lookup(formers[i])[3]
 
                 new_conc = list(onedraw_fun(step_w, step_conc, draws_norm[i]))
 
@@ -409,7 +451,7 @@ def smg_structure(val, tg, p=None):
                     for i in range(len(formers)):
                         if formers[i] not in intermediates:
 
-                            step_conc_ind = list(form_lookup(
+                            step_conc_ind = list(_form_lookup(
                                             formers[i])[4].keys()
                                                             )
                             step_conc = []
@@ -417,12 +459,12 @@ def smg_structure(val, tg, p=None):
                             for i2 in step_conc_ind:
                                 step_conc.append(structures[i2])
 
-                            step_w_ind = form_lookup(formers[i])[5]
+                            step_w_ind = _form_lookup(formers[i])[5]
                             step_w = []
                             for i2 in step_w_ind:
                                 step_w.append(weights[i2])
 
-                            onedraw_fun = form_lookup(formers[i])[3]
+                            onedraw_fun = _form_lookup(formers[i])[3]
                             new_conc = list(
                                 onedraw_fun(step_w, step_conc,
                                             back_draw, back=True)
@@ -445,14 +487,14 @@ def smg_structure(val, tg, p=None):
                         else:
                             f_p = formers[0] + formers[i2]
                             f_path = "Parameters/MF"
-                            f = data_load(f_path, f_p, 0)[0]
-                    path = form_lookup(formers[i2])[0]
-                    w_names = form_lookup(formers[i2])[5]
-                    Hi = data_load(path, modifiers[i], 0)
+                            f = _data_load(f_path, f_p, 0)[0]
+                    path = _form_lookup(formers[i2])[0]
+                    w_names = _form_lookup(formers[i2])[5]
+                    Hi = _data_load(path, modifiers[i], 0)
 
                     m_weights[w_names[0]] = 1 * f
 
-                    struc_keys = list(form_lookup(formers[i2])[4].keys())
+                    struc_keys = list(_form_lookup(formers[i2])[4].keys())
                     m_draws.append(m_weights[w_names[0]] *
                                    structures[struc_keys[0]])
 
@@ -484,17 +526,17 @@ def smg_structure(val, tg, p=None):
                 draws_norm.append((draws[i] / sum(draws)))
 
             for i in range(len(formers)):
-                step_conc_ind = list(form_lookup(formers[i])[4].keys())
+                step_conc_ind = list(_form_lookup(formers[i])[4].keys())
                 step_conc = []
                 for i2 in step_conc_ind:
                     step_conc.append(structures[i2])
 
-                step_w_ind = form_lookup(formers[i])[5]
+                step_w_ind = _form_lookup(formers[i])[5]
                 step_w = []
                 for i2 in step_w_ind:
                     step_w.append(weights[i2])
 
-                onedraw_fun = form_lookup(formers[i])[3]
+                onedraw_fun = _form_lookup(formers[i])[3]
 
                 new_conc = list(onedraw_fun(step_w, step_conc, draws_norm[i]))
 
@@ -504,7 +546,7 @@ def smg_structure(val, tg, p=None):
     return structures
 
 
-def smg_basin_binary(former, modifier, it=10):
+def smg_basin_binary(former, modifier, it=10, path_in=None):
     """
        This function will calculate interaction
        enthalpies for binary oxide glasses.
@@ -515,7 +557,7 @@ def smg_basin_binary(former, modifier, it=10):
        Refer to README for details of data file formatting
 
     =============================================================================
-       smg_basin_binary(former, modifier, it=10)
+       smg_basin_binary(former, modifier, it=10, path_in=None)
     =============================================================================
 
        where former and modifier are string parameters such as "Si" and "Na".
@@ -523,6 +565,9 @@ def smg_basin_binary(former, modifier, it=10):
 
        it is the number of iterations the basinhopping parameter optimazation
        function will run. Please refer to the manuscript for elaboration
+       
+       path_in can be set to any desired path, where the files will be found
+       instead of the default path
 
        The function requires structural data in the /Data directory
        under the directory with the same name as the desired former.
@@ -539,7 +584,7 @@ def smg_basin_binary(former, modifier, it=10):
 
     M2O = []
 
-    a_frac = form_lookup(former)[6]
+    a_frac = _form_lookup(former)[6]
 
     for i in draw_ar:
         next_mod = (
@@ -547,18 +592,21 @@ def smg_basin_binary(former, modifier, it=10):
                                              ((draw_ar[i] / a_frac))) * 100
                     )
         M2O.append(next_mod)
-
-    path = form_lookup(former)[8]
+    
+    if path_in:
+        path = path_in
+    else:
+        path = _form_lookup(former)[8]
     tg_des = modifier + "_Tg"
-    tg_data = (data_load(path, tg_des, 0), data_load(path, tg_des, 1))
+    tg_data = (_data_load(path, tg_des, 0), _data_load(path, tg_des, 1))
 
-    tg = tg_fit(tg_data, M2O)
+    tg = _tg_fit(tg_data, M2O)
 
     fil = modifier
     dat, engine_fun, SSE_fun = (
-        form_lookup(former, fil)[7],
-        form_lookup(former, fil)[1],
-        form_lookup(former, fil)[2],
+        _form_lookup(former, fil, path_in)[7],
+        _form_lookup(former, fil, path_in)[1],
+        _form_lookup(former, fil, path_in)[2],
     )
 
     par = engine_fun(fil, dat, tg, it)
@@ -567,7 +615,7 @@ def smg_basin_binary(former, modifier, it=10):
     return par
 
 
-def smg_binary_par(former, modifier, it=10):
+def smg_binary_par(former, modifier, it=10, path_in=None):
     """
        This function will calculate and save interaction enthalpies for binary
        oxide glasses. If you don't wish to automatically save the parameter to
@@ -585,6 +633,9 @@ def smg_binary_par(former, modifier, it=10):
 
        it is the number of iterations the basinhopping parameter optimazation
        function will run. Please refer to the manuscript for elaboration
+       
+       path_in can be set to any desired path, where the files will be found
+       instead of the default path
 
        The function requires structural data in the /Data directory under the
        directory with the same name as the desired former. In the sodium
@@ -599,7 +650,7 @@ def smg_binary_par(former, modifier, it=10):
 
     par = smg_basin_binary(former, modifier, it)
 
-    path = form_lookup(former)[0]
+    path = _form_lookup(former, path_in)[0]
 
     current_dir = os.getcwd()
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -611,20 +662,19 @@ def smg_binary_par(former, modifier, it=10):
     return print("Parameters {} saved to {} in {}".format(par, modifier, path))
 
 
-def smg_ternary_SSE(p, formers, modifier):
+def _smg_ternary_SSE(p, formers, modifier):
     """
     This function will return the SSE when
     fitting ternary oxide glass parameters.
-    The function is not meant for manual use
     """
 
     data_path = "Data/" + formers[0] + formers[1]
 
     m_data, f1_data, f2_data, tg_data = (
-        data_load(data_path, modifier, 0),
-        data_load(data_path, modifier, 1),
-        data_load(data_path, modifier, 2),
-        data_load(data_path, modifier, 3),
+        _data_load(data_path, modifier, 0),
+        _data_load(data_path, modifier, 1),
+        _data_load(data_path, modifier, 2),
+        _data_load(data_path, modifier, 3),
     )
 
     SSE = 0
@@ -636,9 +686,9 @@ def smg_ternary_SSE(p, formers, modifier):
         res_struc = smg_structure(values, tg, p)
         data_ind = 4
         for i2 in range(len(formers)):
-            data_q = form_lookup(formers[i2])[9]
+            data_q = _form_lookup(formers[i2])[9]
             for i3 in range(len(data_q)):
-                data = data_load(data_path, modifier, data_ind)[i3]
+                data = _data_load(data_path, modifier, data_ind)[i3]
                 SSE += (data - float(res_struc[data_q[i3]])) ** 2
                 data_ind += 1
 
@@ -676,7 +726,6 @@ def smg_ternary_p_opt(formers, modifier, it=10):
     """
 
     w0 = 1
-    # print(formers)
     minimizer_kwargs = {
         "method": "COBYLA",
         "args": (
@@ -685,7 +734,7 @@ def smg_ternary_p_opt(formers, modifier, it=10):
         ),
     }
     res = scipy.optimize.basinhopping(
-        smg_ternary_SSE,
+        _smg_ternary_SSE,
         w0,
         niter=it,
         T=2.0,
@@ -797,9 +846,7 @@ def smg_plot(comps, free_comp, tg, plt_save=False):
         else:
             for key in structures:
                 structures_end[key].append(structures[key])
-        # print("Structures for it {}: {}".format(i, structures))
 
-    # print(structures_end)
     plt_legend = []
     for key in structures_end:
         plt.plot(range(101), structures_end[key])
@@ -814,34 +861,3 @@ def smg_plot(comps, free_comp, tg, plt_save=False):
         plt.savefig(("{}_plot.png".format(plt_name)))
     plt.show()
 
-
-# if __name__ == "__main__":
-
-    # fit = False
-    # print(smg_structure({"Si":20, "B":60, "Na":20}, 700))
-    # if fit:
-
-    # ter_form = ["Al", "Si"]
-    # ter_mod = "Ca"
-    # it = 2
-    #
-    # smg_ternary_par(ter_form, ter_mod, it)
-    #     opt_par = float(smg_ternary_p_opt(ter_form, ter_mod, it))
-    # else:
-
-    #     values = {"Si":25, "B":13}
-    #     tg = 800
-
-    #     smg_plot(values, "Na", tg, plt_save = False)
-
-    #     print("Predicted structural distribution: {}".format(res_struc))
-
-    # former = "P"
-    # modifier = "Na"
-    # smg_binary_par(former, modifier, it=10)
-    # print(smg_structure({"P": 20, "Na": 20}, 700))
-# ter_form = ["Si", "B"]
-# ter_mod = "Na"
-# it = 2
-
-# opt_par = smg_ternary_par(ter_form, ter_mod, it)

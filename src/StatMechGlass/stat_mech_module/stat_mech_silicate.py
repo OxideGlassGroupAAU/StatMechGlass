@@ -726,15 +726,3 @@ def Si_engine(fil, data, tg, it=10):
     )
 
     return res.x
-
-
-# minimizer_kwargs = {"method": "BFGS"}
-# w0 = [10, 20, 30]
-# mybounds = MyBounds()
-
-# res = scipy.optimize.basinhopping(model, w0, niter=50, T=2.0, stepsize=1,
-# minimizer_kwargs=minimizer_kwargs, take_step=None,
-# accept_test=None, callback=None, interval=50,
-# disp=True, niter_success=None, seed=None)
-
-# model(res.x,p=True)
